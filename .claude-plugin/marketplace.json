@@ -1,0 +1,16 @@
+{
+  "name": "learn-while-vibe-coding-marketplace",
+  "owner": {
+    "name": "VuxSussy"
+  },
+  "metadata": {
+    "description": "Plugin giúp người vibe code vừa làm vừa học."
+  },
+  "plugins": [
+    {
+      "name": "learn-while-vibe-coding",
+      "source": "./",
+      "description": "Vừa vibe code vừa học: mỗi bước Claude làm đều được giải thích 2–3 dòng dễ hiểu."
+    }
+  ]
+}

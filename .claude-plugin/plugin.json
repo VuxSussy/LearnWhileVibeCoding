@@ -1,0 +1,21 @@
+{
+  "name": "learn-while-vibe-coding",
+  "displayName": "LearnWhileVibeCoding",
+  "version": "1.1.0",
+  "description": "Vừa vibe code vừa học: Claude giải thích ngắn gọn (2–3 dòng, dễ hiểu) mỗi bước nó làm. Có chế độ thân thiện ADHD (/adhd-on) cho người khó tập trung.",
+  "author": {
+    "name": "VuxSussy",
+    "url": "https://github.com/VuxSussy"
+  },
+  "keywords": [
+    "learning",
+    "education",
+    "vibe-coding",
+    "beginner",
+    "vietnamese",
+    "adhd",
+    "accessibility"
+  ],
+  "homepage": "https://github.com/VuxSussy/LearnWhileVibeCoding",
+  "repository": "https://github.com/VuxSussy/LearnWhileVibeCoding"
+}
