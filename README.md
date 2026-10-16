@@ -1,24 +1,40 @@
 # 🎓 LearnWhileVibeCoding
 
-Plugin cho **Claude Code** giúp người vibe code **vừa làm vừa học** — không còn cảnh app chạy được mà mình không hiểu gì.
-Mỗi bước Claude làm đều kèm giải thích **2–3 dòng, dễ hiểu như nói chuyện**.
+A **Claude Code** plugin that lets vibe coders **learn while they build**, so you don't end up with an app that works but that you don't understand.
 
-## ✨ Trông như thế nào?
+- Every meaningful step comes with a **2–3 line, plain-language explanation**.
+- Every **hard bug Claude solves** is turned into a short, reusable lesson.
+- You can **write the important lines yourself**, with hints, and **practice explaining your project** for interviews and project defenses.
+- An **ADHD-friendly mode** for people who struggle with focus or long walls of text.
 
-> 📘 **Đang làm:** Tạo file `.env` để lưu khoá API thay vì viết thẳng vào code.
-> 💡 **Vì sao:** Nếu khoá nằm trong code và bạn đẩy lên GitHub, người lạ có thể lấy dùng.
-> 🔑 **Thuật ngữ:** *Biến môi trường* = "tờ ghi chú bí mật" chương trình đọc lúc chạy.
+> Explanations are written in whatever language you write to Claude. The built-in prompts are in Vietnamese, and Claude translates its labels when you write in English.
 
-## 📦 Cài đặt
+## ✨ What it looks like
 
-Trong Claude Code, gõ lần lượt:
+**Every step: 📘 Doing / 💡 Why / 🔑 Term**
+
+> 📘 **Doing:** Creating a `.env` file to store the API key instead of hard-coding it.
+> 💡 **Why:** If the key lives in your code and you push to GitHub, strangers can grab it and use it.
+> 🔑 **Term:** *Environment variable* = a "secret sticky note" your program reads when it starts.
+
+**After a hard bug: a 🧩 Hard case block**
+
+> 🧩 **Hard case: "Double-clicking creates two orders"**
+> 🤒 **Symptom:** Clicking fast twice saves two identical orders.
+> 🔎 **Root cause:** The second request is sent **before the first one finishes**, like two people withdrawing from one account at once.
+> 🛠️ **Fix & why it works:** **Disable the button** while sending and add a **unique order key** on the server, so duplicates are rejected at the source.
+> 🧠 **Spot it next time:** The bug only happens **when you act fast**, so think "two things running on top of each other".
+
+## 📦 Installation
+
+Inside Claude Code:
 
 ```
 /plugin marketplace add VuxSussy/LearnWhileVibeCoding
 /plugin install learn-while-vibe-coding@learn-while-vibe-coding-marketplace
 ```
 
-Hoặc từ terminal:
+Or from a terminal:
 
 ```bash
 claude plugin marketplace add VuxSussy/LearnWhileVibeCoding
@@ -28,75 +44,101 @@ claude plugin marketplace add VuxSussy/LearnWhileVibeCoding
 claude plugin install learn-while-vibe-coding@learn-while-vibe-coding-marketplace
 ```
 
-Sau đó mở session mới — chế độ học sẽ tự bật. Cập nhật bản mới: `claude plugin update learn-while-vibe-coding`.
+Start a new session and learning mode turns on automatically. To update later, run `claude plugin update learn-while-vibe-coding`.
 
-## 🧰 Plugin gồm những gì?
+## 🧰 What's inside
 
-| Thành phần | Tác dụng (giải thích ngắn) |
+### Skills (Claude uses them automatically when they fit)
+
+| Skill | What it does |
 |---|---|
-| **Hook `SessionStart`** | Mỗi khi mở session, "dặn" Claude luật dạy học: mỗi bước kèm 2–3 dòng giải thích. |
-| **Hook `UserPromptSubmit`** | Nhắc khẽ mỗi lượt để Claude không quên giải thích khi trò chuyện dài. |
-| **Skill `learn-while-coding`** | Bộ quy tắc chi tiết: định dạng 📘/💡/🔑, dùng so sánh đời thường, tránh biệt ngữ. |
-| `/explain [thứ cần hiểu]` | Giải thích một file, đoạn code, lệnh hoặc khái niệm từng phần một. |
-| `/why [quyết định]` | Vì sao chọn cách này? So với cách khác thì sao? |
-| `/quiz [chủ đề]` | Đố nhanh 3 câu dựa trên code của bạn để kiểm tra đã hiểu chưa. |
-| `/recap [lưu]` | Tóm tắt những gì đã học; thêm `lưu` để ghi vào `LEARNING_NOTES.md`. |
-| `/glossary [từ]` | Bảng thuật ngữ đã gặp, mỗi từ giải nghĩa 1 câu + ví dụ đời thường. |
-| `/learn-off` · `/learn-on` | Tắt / bật chế độ giải thích tự động khi bạn đã quen. |
-| **Skill `i-have-adhd`** | Cho người ADHD / khó tập trung: chia nhỏ việc, câu ngắn, in đậm từ khoá, mỗi lần chỉ 1 việc. |
-| `/adhd-on` · `/adhd-off` | Bật / tắt chế độ ADHD (được nhớ cho các session sau). |
-| `/where` | "Mình đang ở đâu?" — định vị nhanh khi bị lạc hoặc vừa nghỉ quay lại. |
+| `learn-while-coding` | The core teaching rules: 📘/💡/🔑 blocks, everyday analogies, no unexplained jargon. |
+| `hard-case-explainer` | After a tricky bug (it took several tries, the cause was hidden, or the error was misleading), explains the symptom, root cause, why the fix works, and how to spot it next time. |
+| `learn-by-doing` | Leaves 3–10 meaningful lines for **you** to write, marked with a `TODO`, plus step-by-step hints and feedback. |
+| `i-have-adhd` | Smaller chunks, a 🗺️ progress bar, short sentences with **bold keywords**, one next action at a time. |
 
-> Lệnh plugin có thể hiện dưới dạng `/learn-while-vibe-coding:explain` nếu trùng tên với lệnh khác.
+### Commands
 
-## 🧠 Chế độ ADHD (`/adhd-on`)
-
-Dành cho người **khó giữ tập trung** hoặc **dễ ngợp khi đọc chữ dài**. Vẫn giải thích 2–3 dòng, nhưng:
-
-| Kỹ thuật | Giúp gì? |
+| Command | What it does |
 |---|---|
-| 🗺️ Thanh tiến độ `✅ → 👉 → ⬜` | Luôn thấy mình đang ở bước nào, còn bao nhiêu bước. |
-| Câu ≤ 15 từ, **in đậm từ khoá** | Lướt mắt là bắt được ý chính, không phải đọc hết. |
-| `👉 Việc của bạn:` — chỉ 1 việc | Không bị tê liệt vì quá nhiều lựa chọn. |
-| `🅿️ Để sau:` | Ý lạc đề được "đỗ" lại, không làm đứt mạch. |
-| ✅ Ăn mừng nhỏ, ☕ gợi ý nghỉ | Giữ động lực, tránh kiệt sức. |
-| `/where` → khối 📍 định vị | Quay lại sau khi xao nhãng mà không phải đọc lại cả cuộc trò chuyện. |
+| `/explain [thing]` | Explains a file, snippet, command or concept piece by piece. |
+| `/why [decision]` | Why this approach? Shows the alternatives and when to switch. |
+| `/hard-case [case] [save]` | Deep dive into the hard bug that was just solved: flow before and after the fix, failed attempts, how to reproduce it yourself, and similar risks elsewhere in the project. |
+| `/quiz [topic]` | A 3-question quiz based on **your** code. Answers come after you reply. |
+| `/practice [spot]` | Gives you one small coding task right now, with hints. |
+| `/interview [practice]` | Generates talking points for explaining your project, or runs a mock interview one question at a time. |
+| `/recap [save]` | A study summary of the session (what you built, concepts, hard cases, terms). Add `save` to append it to `LEARNING_NOTES.md`. |
+| `/glossary [term]` | A table of the terms you have met, each with a one-line meaning and an everyday example. |
+| `/where` | "Where was I?" Shows the goal, progress and the single next step. Useful after a break. |
+| `/learn-on` · `/learn-off` | Turns automatic explanations on or off. |
+| `/practice-on` · `/practice-off` | Turns on a mode where Claude leaves one small piece of each new feature for you to write. |
+| `/adhd-on` · `/adhd-off` | Turns ADHD-friendly mode on or off. |
 
-Ví dụ:
+> Toggles are remembered across sessions. If another plugin uses the same command name, use the prefixed form, for example `/learn-while-vibe-coding:explain`.
 
-> 🗺️ `✅ Cài Express → 👉 Tạo server → ⬜ Chạy thử`
->
-> 📘 **Đang làm:** Tạo file `server.js` — **cửa chính** của web.
-> 💡 **Vì sao:** Mọi yêu cầu từ trình duyệt đều **đi qua đây** trước.
->
-> 👉 **Việc của bạn:** Gõ `node server.js` rồi mở `localhost:3000`.
+### Hooks
 
-Không cần bật lệnh cũng được: chỉ cần nói *"mình bị ADHD"* hoặc *"đọc dài không nổi"*, Claude sẽ tự dùng skill này.
+| Hook | What it does |
+|---|---|
+| `SessionStart` | Loads the teaching rules, plus the ADHD and practice rules if you turned them on, at the start of every session. |
+| `UserPromptSubmit` | Adds a one-line reminder on each turn so Claude keeps explaining, and keeps writing 🧩 blocks, even in long sessions. |
 
-## 🗺️ Gợi ý quy trình học
+## 🧠 ADHD-friendly mode (`/adhd-on`)
 
-1. Ra yêu cầu như bình thường → đọc các khối 📘💡🔑 khi Claude làm.
-2. Chỗ nào chưa hiểu → `/explain` hoặc `/why`.
-3. Xong một tính năng → `/quiz` để tự kiểm tra.
-4. Cuối buổi → `/recap lưu` để có sổ tay ôn tập.
+For people who **find it hard to stay focused** or **get overwhelmed by long text**. Each step is still explained in 2–3 lines, but:
 
-## 📁 Cấu trúc
+| Technique | How it helps |
+|---|---|
+| 🗺️ Progress bar `✅ → 👉 → ⬜` | You always know which step you're on and how many are left. |
+| Sentences of 15 words or fewer, **bold keywords** | Skim and still catch the main idea. |
+| `👉 Your turn:` with one action only | No freezing in front of too many choices. |
+| `🅿️ Later:` | Side ideas are parked so you don't lose the thread. |
+| ✅ Small wins, ☕ break nudges | Keeps you motivated and avoids burnout. |
+| `/where` shows a 📍 "you are here" block | Get back on track after a distraction without rereading the whole chat. |
+
+You don't have to run a command. Just say *"I have ADHD"* or *"this is too much text"* and Claude switches to this style.
+
+## 🗺️ Suggested learning loop
+
+1. Ask for what you want as usual, and read the 📘💡🔑 blocks as Claude works.
+2. When Claude fixes something tricky, read the 🧩 block. Use `/hard-case` if you want the full story.
+3. Something unclear? Use `/explain` or `/why`.
+4. Finished a feature? Use `/practice` or `/quiz` to check that it sticks.
+5. At the end of the day, run `/recap save` to keep your notes, and `/interview` before a demo or project defense.
+
+## 📁 Structure
 
 ```
 LearnWhileVibeCoding/
 ├── .claude-plugin/
-│   ├── plugin.json          # thông tin plugin
-│   └── marketplace.json     # để cài bằng `claude plugin`
+│   ├── plugin.json          # plugin metadata
+│   └── marketplace.json     # makes it installable via /plugin
 ├── hooks/
-│   ├── hooks.json           # đăng ký hook
-│   ├── session-start.sh     # bơm luật dạy học vào session
-│   ├── reminder.sh          # nhắc mỗi lượt
-│   ├── teaching-rules.md    # nội dung luật dạy học
-│   └── adhd-rules.md        # luật thêm khi bật /adhd-on
+│   ├── hooks.json           # registers the hooks
+│   ├── session-start.sh     # injects the rules at session start
+│   ├── reminder.sh          # per-turn reminder
+│   ├── teaching-rules.md    # core teaching rules
+│   ├── adhd-rules.md        # extra rules when /adhd-on
+│   └── practice-rules.md    # extra rules when /practice-on
 ├── skills/
 │   ├── learn-while-coding/SKILL.md
+│   ├── hard-case-explainer/SKILL.md
+│   ├── learn-by-doing/SKILL.md
 │   └── i-have-adhd/SKILL.md
-└── commands/                # các slash command
+├── commands/                # slash commands
+└── LICENSE
 ```
 
-Muốn chỉnh giọng văn/định dạng giải thích? Sửa `hooks/teaching-rules.md` và `skills/learn-while-coding/SKILL.md`.
+To change the tone or format of the explanations, edit `hooks/teaching-rules.md` and the `SKILL.md` files.
+
+## 🙏 Inspiration & credits
+
+This plugin's ideas were inspired by the following projects. All text in this repository was written from scratch, and no code or prompts were copied.
+
+- **Anthropic's `explanatory-output-style` plugin** ([anthropics/claude-code](https://github.com/anthropics/claude-code/tree/main/plugins/explanatory-output-style)): codebase-specific "insight" notes written alongside the code. Here they became the shorter 🔍 Insight line and the 📘/💡/🔑 blocks.
+- **Anthropic's `learning-output-style` plugin** ([anthropics/claude-code](https://github.com/anthropics/claude-code/tree/main/plugins/learning-output-style)): asking the user to write small, meaningful pieces of code at decision points. Here this became `learn-by-doing`, adapted for beginners with step-by-step hints, a "just do it for me" escape, and an ADHD-sized variant.
+- **[lyqqqq66666/vibe-coding-learning](https://github.com/lyqqqq66666/vibe-coding-learning)** (MIT): turning AI-written code into study notes and interview talking points. Here this became `/recap save`, the hard-case notes and `/interview`.
+
+## 📄 License
+
+[MIT](LICENSE) © 2026 VuxSussy

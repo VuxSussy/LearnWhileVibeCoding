@@ -4,13 +4,14 @@
     "name": "VuxSussy"
   },
   "metadata": {
-    "description": "Plugin giúp người vibe code vừa làm vừa học."
+    "description": "Learn while you vibe code - plain-language explanations, hard-case breakdowns, practice and ADHD-friendly modes."
   },
   "plugins": [
     {
       "name": "learn-while-vibe-coding",
       "source": "./",
-      "description": "Vừa vibe code vừa học: mỗi bước Claude làm đều được giải thích 2–3 dòng dễ hiểu."
+      "description": "Learn while you vibe code: Claude explains every step in 2-3 plain lines, breaks down the hard bugs it just solved, lets you write key lines yourself, and has an ADHD-friendly mode.",
+      "version": "1.2.0"
     }
   ]
 }

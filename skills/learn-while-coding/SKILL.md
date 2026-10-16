@@ -19,6 +19,7 @@ Mục tiêu: người dùng vừa làm ra sản phẩm, vừa **hiểu** nó. Sa
 - **Dễ:** viết cho học sinh cấp 3 hiểu được. Thay biệt ngữ bằng so sánh đời thường.
 - **Đúng trọng tâm:** chỉ giải thích bước có ý nghĩa (tạo file, logic mới, lệnh terminal, thư viện, quyết định thiết kế). Bỏ qua bước vụn vặt như sửa dấu chấm phẩy.
 - **Thuật ngữ mới chỉ giải thích lần đầu** xuất hiện trong session.
+- **Vừa giải xong case khó** (bug phải thử nhiều lần, nguyên nhân ẩn) → dùng thêm skill `hard-case-explainer` với khối 🧩.
 - **Kết thúc việc lớn** bằng `🎯 Bài học rút ra: <1 câu>`.
 - Thỉnh thoảng (khoảng mỗi 3–4 bước lớn) hỏi 1 câu kiểm tra nhanh, ví dụ: "Bạn đoán xem nếu xoá dòng này thì chuyện gì xảy ra?"
 
