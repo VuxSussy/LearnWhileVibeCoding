@@ -87,7 +87,7 @@ def build():
         "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
         **{k: claude[k] for k in ("name", "version", "description", "author", "homepage", "repository", "license", "keywords")},
         "extensions": {"com.openai": {"interface": {
-            "displayName": "LearnWhileVibeCoding",
+            "displayName": "VibeLearning",
             "shortDescription": "Learn while you vibe code",
             "developerName": claude["author"]["name"],
             "category": "Education",

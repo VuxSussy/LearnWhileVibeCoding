@@ -1,4 +1,4 @@
-# 🎓 LearnWhileVibeCoding
+# 🎓 VibeLearning
 
 A **Claude Code** (and **OpenAI Codex**) plugin that lets vibe coders **learn while they build**, so you don't end up with an app that works but that you don't understand.
 
@@ -30,21 +30,21 @@ A **Claude Code** (and **OpenAI Codex**) plugin that lets vibe coders **learn wh
 Inside Claude Code:
 
 ```
-/plugin marketplace add VuxSussy/LearnWhileVibeCoding
-/plugin install learn-while-vibe-coding@learn-while-vibe-coding-marketplace
+/plugin marketplace add VuxSussy/VibeLearning
+/plugin install vibe-learning@vibe-learning-marketplace
 ```
 
 Or from a terminal:
 
 ```bash
-claude plugin marketplace add VuxSussy/LearnWhileVibeCoding
+claude plugin marketplace add VuxSussy/VibeLearning
 ```
 
 ```bash
-claude plugin install learn-while-vibe-coding@learn-while-vibe-coding-marketplace
+claude plugin install vibe-learning@vibe-learning-marketplace
 ```
 
-Start a new session and learning mode turns on automatically. To update later, run `claude plugin update learn-while-vibe-coding`.
+Start a new session and learning mode turns on automatically. To update later, run `claude plugin update vibe-learning`.
 
 ## 🧰 What's inside
 
@@ -74,7 +74,7 @@ Start a new session and learning mode turns on automatically. To update later, r
 | `/practice-on` · `/practice-off` | Turns on a mode where Claude leaves one small piece of each new feature for you to write. |
 | `/adhd-on` · `/adhd-off` | Turns ADHD-friendly mode on or off. |
 
-> Toggles are remembered across sessions. If another plugin uses the same command name, use the prefixed form, for example `/learn-while-vibe-coding:explain`.
+> Toggles are remembered across sessions. If another plugin uses the same command name, use the prefixed form, for example `/vibe-learning:explain`.
 
 ### Hooks
 
@@ -88,12 +88,12 @@ Start a new session and learning mode turns on automatically. To update later, r
 The same plugin ships a Codex build in [`codex/`](codex/), published through [`.agents/plugins/marketplace.json`](.agents/plugins/marketplace.json).
 
 ```bash
-codex plugin marketplace add VuxSussy/LearnWhileVibeCoding
+codex plugin marketplace add VuxSussy/VibeLearning
 ```
 
 Then:
 
-1. Run `codex`, open `/plugins` and install **learn-while-vibe-coding**.
+1. Run `codex`, open `/plugins` and install **vibe-learning**.
 2. Run `/hooks` and **trust** the plugin's two hooks. Codex skips plugin hooks until you review them, and without them the automatic explanations won't turn on.
 3. Start a new session.
 
@@ -135,7 +135,7 @@ You don't have to run a command. Just say *"I have ADHD"* or *"this is too much 
 ## 📁 Structure
 
 ```
-LearnWhileVibeCoding/
+VibeLearning/
 ├── .claude-plugin/
 │   ├── plugin.json          # plugin metadata
 │   └── marketplace.json     # makes it installable via /plugin

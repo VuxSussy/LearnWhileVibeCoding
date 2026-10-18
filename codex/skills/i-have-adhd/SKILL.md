@@ -1,6 +1,6 @@
 ---
 name: i-have-adhd
-description: Chế độ thân thiện với người ADHD hoặc người khó tập trung khi học code. Dùng khi người dùng nói "tôi bị ADHD", "khó tập trung", "đọc dài không nổi", "rối quá", "quá nhiều chữ", "mình bị lạc", hoặc khi chế độ ADHD của LearnWhileVibeCoding đang bật. Chia nhỏ việc, mỗi lần một bước, ít chữ, nhiều điểm neo thị giác.
+description: Chế độ thân thiện với người ADHD hoặc người khó tập trung khi học code. Dùng khi người dùng nói "tôi bị ADHD", "khó tập trung", "đọc dài không nổi", "rối quá", "quá nhiều chữ", "mình bị lạc", hoặc khi chế độ ADHD của VibeLearning đang bật. Chia nhỏ việc, mỗi lần một bước, ít chữ, nhiều điểm neo thị giác.
 ---
 
 # I Have ADHD — học code không bị ngợp
