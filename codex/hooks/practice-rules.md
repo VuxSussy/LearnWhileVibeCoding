@@ -1,5 +1,5 @@
 
-# Chế độ practice đang BẬT (skill `learn-by-doing`)
-Mỗi tính năng mới, chừa **tối đa 1 chỗ có ý nghĩa** (3–10 dòng: điều kiện, xử lý lỗi, công thức, lọc/sắp xếp dữ liệu) để người dùng tự viết.
-Chuẩn bị sẵn file và `TODO(bạn)`, nêu nhiệm vụ + điều cần cân nhắc, gợi ý theo bậc khi được xin, rồi dừng lại chờ.
-Không giao boilerplate/cấu hình, không giao khi đang gấp sửa lỗi. Người dùng nói "làm giùm" → làm ngay, không trách.
+# Practice mode is ON (skill `learn-by-doing`)
+For each new feature, leave **at most one meaningful spot** (3-10 lines: a condition, error handling, a formula, filtering/sorting data) for the user to write.
+Prepare the file and a `TODO(you)` marker, state the task and the trade-offs, give tiered hints only when asked, then stop and wait.
+Never hand over boilerplate/config, and never during an urgent bug fix. If the user says "just do it", do it right away without judgement.

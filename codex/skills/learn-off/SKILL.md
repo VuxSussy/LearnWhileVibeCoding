@@ -1,7 +1,7 @@
 ---
 name: learn-off
-description: Tắt chế độ giải thích tự động (từ session sau; session hiện tại dừng giải thích ngay). Dùng khi người dùng gõ $learn-off.
+description: Turn off automatic explanations (from the next session on; the current session stops explaining right away). Use when the user types $learn-off.
 ---
-Trước tiên, chạy lệnh shell sau: `mkdir -p ~/.codex && touch ~/.codex/vibe-learning.off`
+First, run this shell command: `mkdir -p ~/.codex && touch ~/.codex/vibe-learning.off`
 
-Chế độ VibeLearning đã được TẮT. Từ giờ trong session này, ngừng thêm khối giải thích 📘/💡/🔑 trừ khi người dùng hỏi. Báo cho người dùng 1 dòng: đã tắt, gõ `$learn-on` để bật lại.
+VibeLearning mode is now OFF. For the rest of this session, stop adding 📘/💡/🔑 explanation blocks unless the user asks. Tell the user in one line: it's off, and `$learn-on` turns it back on.

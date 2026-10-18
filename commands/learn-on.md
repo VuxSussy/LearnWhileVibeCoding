@@ -1,7 +1,7 @@
 ---
-description: Bật lại chế độ vừa làm vừa học
+description: Turn learn-while-you-build mode back on
 allowed-tools: Bash(rm:*)
 ---
 !`rm -f ~/.claude/vibe-learning.off`
 
-Chế độ VibeLearning đã được BẬT. Từ giờ, áp dụng skill `learn-while-coding`: mỗi bước quan trọng kèm giải thích 2–3 dòng dễ hiểu theo định dạng 📘 Đang làm / 💡 Vì sao / 🔑 Thuật ngữ. Báo cho người dùng 1 dòng: đã bật.
+VibeLearning mode is now ON. From now on apply skill `learn-while-coding`: every meaningful step gets a plain 2-3 line explanation in the 📘 Doing / 💡 Why / 🔑 Term format. Tell the user in one line that it's on.

@@ -1,11 +1,11 @@
 ---
-description: Vì sao chọn cách làm này? So sánh với các cách khác
-argument-hint: [quyết định cần giải thích]
+description: Why this approach? Compare it with the alternatives
+argument-hint: [decision to explain]
 ---
-Giải thích vì sao chọn cách làm sau (mặc định là quyết định gần nhất): $ARGUMENTS
+Explain why this approach was chosen (defaults to the most recent decision): $ARGUMENTS
 
-Trình bày:
-- 💡 **Lý do chọn** (2–3 dòng, lời thường).
-- 🔀 **Cách khác có thể làm:** 1–2 phương án, mỗi cái 1 dòng gồm ưu/nhược.
-- ⚠️ **Nếu làm sai/bỏ qua thì sao:** 1–2 dòng.
-- 🧭 **Khi nào nên đổi sang cách khác:** 1 dòng.
+Structure:
+- 💡 **Why this one** (2-3 plain lines).
+- 🔀 **Other ways to do it:** 1-2 alternatives, one line each with pros/cons.
+- ⚠️ **What goes wrong if it's done badly or skipped:** 1-2 lines.
+- 🧭 **When to switch to another approach:** 1 line.

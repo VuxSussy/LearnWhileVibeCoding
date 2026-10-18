@@ -1,31 +1,31 @@
 ---
 name: learn-by-doing
-description: Cho người vibe code tự tay viết một đoạn code nhỏ (3–10 dòng) ở chỗ có ý nghĩa, kèm gợi ý theo bậc và nhận xét. Dùng khi người dùng gõ /practice, khi chế độ practice đang bật, hoặc khi họ nói "cho mình tự viết", "mình muốn thử", "đừng làm hết giùm mình".
+description: Let the vibe coder write a small, meaningful piece of code (3-10 lines) themselves, with tiered hints and feedback. Use when the user types /practice, when practice mode is on, or when they say "let me write it", "I want to try", "don't do it all for me".
 ---
 
-# Learn by Doing — tự viết một chút, hiểu nhiều hơn
+# Learn by Doing: write a little, understand a lot
 
-Đọc giải thích giúp hiểu; **tự viết** mới giúp nhớ. Nhưng người vibe code dễ nản nếu bị giao quá nhiều.
-Vì vậy chỉ giao **một mảnh nhỏ, có ý nghĩa, có lưới an toàn**.
+Reading explanations helps you understand; **writing it yourself** helps you remember. But vibe coders give up easily when handed too much.
+So only hand over **one small, meaningful piece, with a safety net**.
 
-## Chọn chỗ để giao (đúng loại)
-Nên giao: một **quyết định** có nhiều cách đúng — điều kiện kiểm tra, xử lý lỗi, công thức tính, cách sắp xếp/lọc dữ liệu, thông báo cho người dùng.
-Không giao: boilerplate, cấu hình, import, code lặp lại, thứ chỉ có 1 cách viết.
+## Pick the right spot
+Good: a **decision** with several valid answers: a condition, error handling, a formula, how to sort/filter data, a message shown to the user.
+Bad: boilerplate, configuration, imports, repetitive code, anything with only one way to write it.
 
-## Cách giao (luôn đủ 4 phần, mỗi phần 1–3 dòng)
-1. **Chuẩn bị sẵn:** tạo file/hàm, viết sẵn tên hàm, tham số, giá trị trả về và đánh dấu đúng chỗ bằng `// TODO(bạn): ...` (dùng cú pháp comment của ngôn ngữ đó).
-2. **🎯 Nhiệm vụ:** "Trong `<file>`, viết phần thân hàm `<tên>()` để ..." — 1–2 câu, kèm ví dụ đầu vào → đầu ra mong muốn.
-3. **⚖️ Điều cần cân nhắc:** 1–2 dòng về lựa chọn (ví dụ: "chặn ngay hay cho thử lại 3 lần?").
-4. **🪜 Gợi ý theo bậc:** chỉ đưa khi người dùng xin — `gợi ý 1` (hướng đi), `gợi ý 2` (giả code), `gợi ý 3` (gần như đáp án). Nói rõ họ có thể gõ "gợi ý" bất cứ lúc nào.
+## How to hand it over (always all 4 parts, 1-3 lines each)
+1. **Prepare everything:** create the file/function, write the name, parameters and return value, and mark the exact spot with `// TODO(you): ...` (in the language's comment syntax).
+2. **🎯 Task:** "In `<file>`, write the body of `<name>()` so that ..." in 1-2 sentences, with an example input → expected output.
+3. **⚖️ Things to consider:** 1-2 lines about the choice (e.g. "block right away, or allow 3 retries?").
+4. **🪜 Tiered hints:** only when asked: `hint 1` (direction), `hint 2` (pseudo-code), `hint 3` (almost the answer). Tell them they can type "hint" any time.
 
-Sau đó **dừng lại và chờ** — không tự viết thay.
+Then **stop and wait**. Don't write it for them.
 
-## Khi người dùng nộp code
-- Khen cụ thể 1 điểm làm tốt trước.
-- Nếu có lỗi: chỉ ra **1 vấn đề quan trọng nhất**, giải thích 2–3 dòng, để họ tự sửa. Chỉ sửa giùm nếu họ yêu cầu.
-- Chạy thử/kiểm tra nếu được, rồi kết thúc bằng `🎯 Bài học rút ra:` 1 câu.
-- Nếu họ nói "làm giùm đi" / "bỏ qua": làm ngay, không trách, vẫn giải thích 2–3 dòng.
+## When the user submits code
+- Praise one specific thing first.
+- If something is wrong, point out **the single most important issue**, explain it in 2-3 lines, and let them fix it. Only fix it yourself if they ask.
+- Run/check it if possible, then finish with one `🎯 Takeaway:` line.
+- If they say "just do it" / "skip": do it right away, no judgement, still explain in 2-3 lines.
 
-## Liều lượng
-- Tối đa **1 nhiệm vụ cho mỗi tính năng**, và không giao khi người dùng đang gấp sửa lỗi production.
-- Chế độ ADHD bật: nhiệm vụ **≤ 5 dòng code**, đưa sẵn ví dụ đầu vào/đầu ra, gợi ý 1 hiện sẵn.
+## Dosage
+- At most **one task per feature**, and never while the user is rushing to fix a production bug.
+- With ADHD mode on: tasks of **5 lines or fewer**, include an input/output example, and show hint 1 up front.

@@ -1,22 +1,25 @@
 ---
 name: recap
-description: Tóm tắt những gì đã học trong session thành ghi chú ôn tập. Dùng khi người dùng gõ $recap (có thể kèm: [lưu - để ghi ra file LEARNING_NOTES.md]).
+description: Summarize what you learned this session as study notes. Use when the user types $recap (optionally followed by: [save - to write it to LEARNING_NOTES.md]).
 ---
-Tóm tắt buổi làm việc này thành ghi chú ôn tập cho người mới:
+Summarize this session as study notes for a beginner:
 
-## 🧱 Đã xây được gì
-1–3 dòng mô tả sản phẩm/tính năng.
+## 🧱 What we built
+1-3 lines describing the product/feature.
 
-## 📚 Kiến thức đã học
-Mỗi kiến thức 2–3 dòng: tên khái niệm → giải thích dễ hiểu → nó xuất hiện ở đâu trong code.
+## 📚 What you learned
+Each concept in 2-3 lines: concept name → plain explanation → where it appears in the code.
 
-## 🧩 Case khó đã gặp
-Mỗi case: khối 🧩 rút gọn (triệu chứng → nguyên nhân gốc → cách sửa → dấu hiệu nhận ra). Bỏ qua nếu không có.
+## 🧮 Algorithms & patterns used
+One line each: name → where → idea in plain words. Skip if none.
 
-## 🔑 Thuật ngữ mới
-Bảng: Thuật ngữ | Nghĩa (1 câu) | Ví dụ đời thường.
+## 🧩 Hard cases
+Each case as a short 🧩 block (symptom → root cause → fix → how to spot it). Skip if none.
 
-## 🚀 Gợi ý học tiếp
-2–3 chủ đề nên tìm hiểu tiếp, mỗi cái 1 dòng lý do.
+## 🔑 New terms
+Table: Term | Meaning (1 sentence) | Everyday example.
 
-Nếu tham số là "lưu" (hoặc "save"): (phần người dùng viết kèm khi gọi skill, nếu có) → nối nội dung vào file `LEARNING_NOTES.md` ở thư mục dự án (tạo nếu chưa có), kèm ngày hôm nay làm tiêu đề.
+## 🚀 Learn next
+2-3 topics worth exploring next, one line each with the reason.
+
+If the arguments say "save" ((whatever the user wrote after invoking the skill, if anything)): append the notes to `LEARNING_NOTES.md` in the project folder (create it if missing), with today's date as the heading.

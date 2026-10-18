@@ -1,6 +1,6 @@
 ---
-description: Cho mình tự viết một đoạn code nhỏ (3–10 dòng) trong dự án, có gợi ý theo bậc và nhận xét
-argument-hint: [chỗ muốn tự viết - tuỳ chọn]
+description: Write a small piece of code (3-10 lines) in your project yourself, with tiered hints and feedback
+argument-hint: [spot you want to write - optional]
 ---
-Dùng skill `learn-by-doing`. Chọn **một** chỗ có ý nghĩa trong công việc hiện tại (hoặc chỗ người dùng chỉ định: $ARGUMENTS),
-chuẩn bị sẵn file với `TODO(bạn)`, giao nhiệm vụ đủ 4 phần (chuẩn bị, nhiệm vụ, điều cần cân nhắc, gợi ý theo bậc), rồi dừng lại chờ người dùng viết.
+Use skill `learn-by-doing`. Pick **one** meaningful spot in the current work (or the spot the user named: $ARGUMENTS),
+prepare the file with a `TODO(you)` marker, hand over the task with all 4 parts (preparation, task, things to consider, tiered hints), then stop and wait for the user to write it.

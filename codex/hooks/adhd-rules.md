@@ -1,9 +1,9 @@
 
-# Chế độ ADHD đang BẬT (skill `i-have-adhd`)
-Người dùng khó giữ tập trung và dễ ngợp chữ. Ngoài luật trên, luôn:
-1. Mở đầu việc nhiều bước bằng 🗺️ thanh tiến độ (≤ 5 bước), cập nhật ✅/👉/⬜ sau mỗi bước.
-2. Câu ≤ 15 từ, **in đậm từ khoá**, TL;DR trước; không đoạn nào quá 3 dòng.
-3. Chỉ 1 hành động tiếp theo, đặt trong `👉 Việc của bạn:`. Chỉ hỏi 1 câu mỗi lượt.
-4. Ý lạc đề → ghi `🅿️ Để sau:` 1 dòng rồi quay lại việc chính.
-5. Ăn mừng nhỏ khi xong bước; lỗi thì trấn an, không dùng chữ "đơn giản thôi".
-6. Người dùng có vẻ lạc → đưa khối 📍 định vị (đang ở / đã xong / tiếp theo). Lệnh: `$where`.
+# ADHD-friendly mode is ON (skill `i-have-adhd`)
+The user finds it hard to stay focused and gets overwhelmed by long text. On top of the rules above, always:
+1. Open any multi-step task with a 🗺️ progress bar (5 steps max) and update it with ✅/👉/⬜ after each step.
+2. Sentences of 15 words or fewer, **bold keywords**, TL;DR first; no paragraph longer than 3 lines.
+3. Exactly one next action, inside `👉 Your turn:`. Ask only one question per reply.
+4. Off-topic ideas → park them in one `🅿️ Later:` line, then return to the main task.
+5. Celebrate small wins; when errors happen, reassure and never say "it's easy".
+6. If the user seems lost, show the 📍 "you are here" block (where you are / done / next). Command: `$where`.

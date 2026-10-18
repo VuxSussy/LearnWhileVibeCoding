@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Sinh bản plugin cho Codex (thư mục codex/) từ bản Claude Code.
+"""Generate the Codex build of the plugin (the codex/ folder) from the Claude Code sources.
 
-Bản Claude là bản gốc: sửa skills/, commands/, hooks/ rồi chạy lại
+The Claude Code version is the source of truth: edit skills/, commands/ or hooks/, then run
     python3 scripts/build-codex.py
-Không sửa tay trong codex/ vì sẽ bị ghi đè.
+Never edit codex/ by hand; it is overwritten on every build.
 """
 import json
 import re
@@ -16,9 +16,9 @@ COMMANDS = sorted(p.stem for p in (ROOT / "commands").glob("*.md"))
 
 
 def to_codex_text(text):
-    """Đổi những chỗ chỉ đúng với Claude Code sang cách nói của Codex."""
+    """Rewrite the parts that only make sense in Claude Code into Codex terms."""
     text = text.replace("~/.claude", "~/.codex").replace("$HOME/.claude", "$HOME/.codex")
-    # /explain, /hard-case... -> $explain, $hard-case (Codex gọi skill bằng $)
+    # /explain, /hard-case... -> $explain, $hard-case (Codex invokes skills with $)
     names = "|".join(sorted(map(re.escape, COMMANDS), key=len, reverse=True))
     text = re.sub(rf"(?<![\w/.~-])/({names})(?![\w-])", r"$\1", text)
     text = re.sub(r"\$(learn|adhd|practice)-on\|off", r"$\1-on / $\1-off", text)
@@ -26,7 +26,7 @@ def to_codex_text(text):
 
 
 def split_frontmatter(text):
-    """Tách '---\\nkey: value\\n---\\nbody' thành (dict, body)."""
+    """Split '---\\nkey: value\\n---\\nbody' into (dict, body)."""
     _, head, body = text.split("---\n", 2)
     meta = {}
     for line in head.splitlines():
@@ -36,20 +36,20 @@ def split_frontmatter(text):
 
 
 def convert_command(name, text):
-    """Biến một slash command của Claude thành một skill của Codex."""
+    """Turn a Claude Code slash command into a Codex skill."""
     meta, body = split_frontmatter(text)
     description = (
-        f"{meta['description']}. Dùng khi người dùng gõ ${name}"
-        + (f" (có thể kèm: {meta['argument-hint']})" if "argument-hint" in meta else "")
+        f"{meta['description']}. Use when the user types ${name}"
+        + (f" (optionally followed by: {meta['argument-hint']})" if "argument-hint" in meta else "")
         + "."
     )
 
-    # Claude tự chạy dòng !`lệnh` trước khi đọc prompt; Codex không có tính năng này,
-    # nên đổi thành lời dặn để Codex tự chạy lệnh đó.
-    body = re.sub(r"^!`(.+)`$", r"Trước tiên, chạy lệnh shell sau: `\1`", body, flags=re.MULTILINE)
-    # Claude thay $ARGUMENTS bằng chữ người dùng gõ kèm lệnh; trong skill của Codex
-    # chữ đó chỉ nằm trong tin nhắn của người dùng, nên trỏ thẳng tới nó.
-    body = body.replace("$ARGUMENTS", "(phần người dùng viết kèm khi gọi skill, nếu có)")
+    # Claude Code runs a !`command` line before reading the prompt; Codex has no such feature,
+    # so turn it into an instruction telling Codex to run the command itself.
+    body = re.sub(r"^!`(.+)`$", r"First, run this shell command: `\1`", body, flags=re.MULTILINE)
+    # Claude Code replaces $ARGUMENTS with what the user typed after the command; in a Codex skill
+    # that text only exists in the user's message, so point straight at it.
+    body = body.replace("$ARGUMENTS", "(whatever the user wrote after invoking the skill, if anything)")
 
     body = to_codex_text(body)
     return f"---\nname: {name}\ndescription: {description}\n---\n{body}"
@@ -60,28 +60,28 @@ def build():
         shutil.rmtree(OUT)
     (OUT / "skills").mkdir(parents=True)
 
-    # 1. Skill dùng chung: Codex đọc đúng định dạng SKILL.md này.
+    # 1. Shared skills: Codex reads this exact SKILL.md format.
     for skill in (ROOT / "skills").iterdir():
         dest = OUT / "skills" / skill.name
         dest.mkdir()
         (dest / "SKILL.md").write_text(to_codex_text((skill / "SKILL.md").read_text()))
 
-    # 2. Slash command -> skill (plugin Codex không có thư mục commands/).
+    # 2. Slash commands -> skills (Codex plugins have no commands/ folder).
     for cmd in (ROOT / "commands").glob("*.md"):
         dest = OUT / "skills" / cmd.stem
         dest.mkdir()
         (dest / "SKILL.md").write_text(convert_command(cmd.stem, cmd.read_text()))
 
-    # 3. Hook: cùng sự kiện SessionStart / UserPromptSubmit, cờ bật/tắt nằm ở ~/.codex.
+    # 3. Hooks: same SessionStart / UserPromptSubmit / PostToolUse events; toggles live in ~/.codex.
     shutil.copytree(ROOT / "hooks", OUT / "hooks")
     for f in (OUT / "hooks").iterdir():
         f.write_text(to_codex_text(f.read_text()))
     hooks = json.loads((OUT / "hooks" / "hooks.json").read_text().replace("CLAUDE_PLUGIN_ROOT", "PLUGIN_ROOT"))
     (OUT / "hooks" / "hooks.json").write_text(json.dumps(hooks, ensure_ascii=False, indent=2) + "\n")
-    for f in (OUT / "hooks").glob("*.sh"):
+    for f in [*(OUT / "hooks").glob("*.sh"), *(OUT / "hooks").glob("*.py")]:
         f.chmod(0o755)
 
-    # 4. Manifest: Codex đọc plugin.json ở gốc plugin.
+    # 4. Manifest: Codex reads plugin.json at the plugin root.
     claude = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
     manifest = {
         "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",

@@ -1,41 +1,41 @@
 ---
 name: hard-case-explainer
-description: Giải thích "case khó" mà AI vừa giải để người vibe code hiểu thật sự. Dùng ngay sau khi sửa một bug khó, lỗi khó hiểu, lỗi phải thử nhiều lần mới hết, vấn đề về async/thời gian/bộ nhớ/CORS/quyền/cache/phiên bản thư viện, hoặc khi người dùng hỏi "sao nó lại hết lỗi?", "vừa rồi sửa gì vậy?", "giải thích case này".
+description: Explain a "hard case" the AI just solved so the vibe coder truly understands it. Use right after fixing a tricky bug, a confusing error, something that needed several attempts, or problems involving async/timing/memory/CORS/permissions/cache/library versions, or when the user asks "why did that fix it?", "what did you just change?", "explain this case".
 ---
 
-# Hard Case Explainer — biến bug khó thành bài học
+# Hard Case Explainer: turn hard bugs into lessons
 
-Người vibe code thường chỉ thấy "lỗi → AI sửa → hết lỗi" mà không biết **chuyện gì đã xảy ra**.
-Lần sau gặp lại, họ vẫn bó tay. Skill này biến mỗi case khó thành một bài học nhỏ có thể dùng lại.
+Vibe coders often only see "error → AI fixes it → error gone" without knowing **what actually happened**.
+Next time it shows up, they are stuck again. This skill turns every hard case into a small, reusable lesson.
 
-## Khi nào là "case khó"? (gặp 1 dấu hiệu là đủ)
-- Phải **thử từ 2 lần trở lên** mới sửa được, hoặc cách sửa đầu tiên sai.
-- **Nguyên nhân thật nằm ở chỗ khác** so với chỗ báo lỗi (ví dụ: lỗi hiện ở UI nhưng gốc ở API).
-- Thông báo lỗi **khó hiểu hoặc gây hiểu nhầm**.
-- Liên quan tới thứ "vô hình": thời gian/bất đồng bộ, cache, biến môi trường, phiên bản thư viện, quyền truy cập, CORS, encoding, múi giờ, race condition, memory leak.
-- Có **workaround** hoặc cách sửa trông lạ mà người mới sẽ không tự nghĩ ra.
+## What counts as a "hard case"? (one sign is enough)
+- It took **2 or more attempts**, or the first fix was wrong.
+- The **real cause was somewhere else** than where the error appeared (e.g. it shows in the UI but comes from the API).
+- The error message was **confusing or misleading**.
+- It involved something "invisible": timing/async, cache, environment variables, library versions, permissions, CORS, encoding, time zones, race conditions, memory leaks.
+- The fix is a **workaround** or looks odd in a way a beginner would never come up with.
 
-Bug vặt (gõ sai tên biến, thiếu dấu ngoặc) → **không** dùng khối này, chỉ cần 1 dòng 📘 bình thường.
+Trivial bugs (a misspelled variable, a missing bracket) → do **not** use this block; a normal 📘 line is enough.
 
-## Định dạng khối 🧩 (mỗi dòng 1–2 câu, ngắn gọn)
+## The 🧩 block format (1-2 sentences per line)
 ```
-🧩 Case khó: <tên ngắn, dễ nhớ>
-   🤒 Triệu chứng: <người dùng thấy gì>
-   🔎 Nguyên nhân gốc: <chuyện gì thực sự xảy ra — so sánh đời thường nếu được>
-   🛠️ Cách sửa & vì sao đúng: <sửa gì, vì sao nó giải quyết đúng gốc chứ không chỉ che triệu chứng>
-   🧠 Lần sau nhận ra bằng cách: <dấu hiệu để tự đoán ra loại lỗi này>
+🧩 Hard case: <short, memorable name>
+   🤒 Symptom: <what the user saw>
+   🔎 Root cause: <what was really going on, with an everyday analogy if possible>
+   🛠️ Fix & why it works: <what changed, and why it fixes the root cause instead of hiding the symptom>
+   🧠 Spot it next time: <the sign that tells you it's this kind of bug>
 ```
-Nếu đã thử cách sai trước đó, thêm 1 dòng `❌ Cách đầu chưa được vì: ...` — đây là phần học được nhiều nhất.
+If a wrong fix was tried first, add `❌ First attempt failed because: ...`. That line is often the biggest lesson.
 
-## Nguyên tắc
-- **Trung thực:** nếu chưa chắc nguyên nhân gốc, nói rõ "khả năng cao là...", đừng bịa.
-- **Nói về code của chính người dùng**, chỉ ra file/dòng cụ thể, không giảng lý thuyết chung chung.
-- **Giữ ngắn.** Muốn đào sâu (vẽ luồng chạy, tự tái hiện lỗi) → gợi ý `/hard-case`.
-- Nếu chế độ ADHD bật: in đậm từ khoá mỗi dòng, bỏ bớt chữ, giữ đủ 5 dòng.
+## Principles
+- **Be honest:** if you are not sure about the root cause, say "most likely...". Never make one up.
+- **Talk about the user's own code**, with specific files/lines, not generic theory.
+- **Keep it short.** For a deep dive (flow diagram, reproducing the bug) suggest `/hard-case`.
+- With ADHD mode on: bold the keyword in each line, trim words, keep all 5 lines.
 
-## Ví dụ
-🧩 **Case khó: "Bấm nút 2 lần thì tạo 2 đơn hàng"**
-   🤒 **Triệu chứng:** Người dùng bấm nhanh 2 lần → database có 2 đơn giống hệt.
-   🔎 **Nguyên nhân gốc:** Request đầu **chưa kịp trả về** thì request thứ 2 đã gửi — như 2 người cùng rút tiền một lúc.
-   🛠️ **Cách sửa & vì sao đúng:** **Khoá nút** khi đang gửi và thêm **mã đơn duy nhất** ở server → dù gửi 2 lần, server chỉ nhận 1.
-   🧠 **Lần sau nhận ra:** Lỗi chỉ xảy ra **khi thao tác nhanh** → nghĩ ngay tới "2 việc chạy chồng lên nhau".
+## Example
+🧩 **Hard case: "Double-clicking creates two orders"**
+   🤒 **Symptom:** Clicking fast twice saves two identical orders.
+   🔎 **Root cause:** The first request **hadn't finished** when the second one was sent, like two people withdrawing from one account at the same moment.
+   🛠️ **Fix & why it works:** **Disable the button** while sending and add a **unique order key** on the server, so even two sends create only one order.
+   🧠 **Spot it next time:** The bug only happens **when you act fast**, so think "two things running on top of each other".

@@ -1,9 +1,9 @@
 ---
-description: Bật chế độ thân thiện ADHD — chia nhỏ, ít chữ, một việc một lúc
+description: Turn on ADHD-friendly mode — small chunks, less text, one thing at a time
 allowed-tools: Bash(mkdir:*), Bash(touch:*)
 ---
 !`mkdir -p ~/.claude && touch ~/.claude/vibe-learning.adhd`
 
-Chế độ ADHD đã BẬT (giữ cho cả các session sau). Từ giờ áp dụng skill `i-have-adhd` cùng với `learn-while-coding`:
-bản đồ tiến độ, câu ngắn, in đậm từ khoá, một hành động tiếp theo mỗi lần.
-Báo cho người dùng đúng 1 dòng thân thiện: đã bật, gõ `/where` nếu bị lạc, `/adhd-off` để tắt.
+ADHD-friendly mode is now ON (remembered for future sessions). From now on apply skill `i-have-adhd` together with `learn-while-coding`:
+a progress map, short sentences, bold keywords, one next action at a time.
+Tell the user in exactly one friendly line: it's on, `/where` helps when they get lost, `/adhd-off` turns it off.

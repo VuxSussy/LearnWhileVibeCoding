@@ -1,15 +1,15 @@
 ---
 name: hard-case
-description: Mổ xẻ case khó mà AI vừa giải — nguyên nhân gốc, vì sao cách sửa đúng, và cách tự nhận ra lần sau. Dùng khi người dùng gõ $hard-case (có thể kèm: [mô tả case - mặc định là bug khó gần nhất]).
+description: Deep dive into a hard case the AI just solved — root cause, why the fix works, and how to spot it next time. Use when the user types $hard-case (optionally followed by: [case description - defaults to the latest hard bug] [save]).
 ---
-Dùng skill `hard-case-explainer` để mổ xẻ kỹ case sau (nếu trống: case khó nhất vừa giải trong cuộc trò chuyện): (phần người dùng viết kèm khi gọi skill, nếu có)
+Use skill `hard-case-explainer` to dig into this case (if empty: the hardest case solved in this conversation): (whatever the user wrote after invoking the skill, if anything)
 
-Trình bày theo thứ tự, mỗi phần 2–3 dòng, lời thường:
-1. **Khối 🧩** đầy đủ (triệu chứng, nguyên nhân gốc, cách sửa & vì sao đúng, lần sau nhận ra).
-2. **🎬 Luồng chạy trước và sau khi sửa** — 2 dòng mũi tên, ví dụ: `Bấm nút → gửi request → (chưa xong) → bấm lại → gửi request lần 2 ❌`.
-3. **❌ Các cách đã thử chưa được** (nếu có) và vì sao.
-4. **🧪 Tự tái hiện:** 1 cách đơn giản để người dùng tự làm lỗi xuất hiện lại, để thấy tận mắt.
-5. **🔁 Những chỗ khác có thể dính lỗi tương tự** trong dự án (nếu có, tối đa 2).
-6. **❓ 1 câu hỏi kiểm tra** để người dùng tự trả lời; chờ họ trả lời rồi mới nhận xét.
+Present in this order, 2-3 plain lines per part:
+1. **The full 🧩 block** (symptom, root cause, fix & why it works, spot it next time).
+2. **🎬 Flow before and after the fix** as two arrow lines, e.g. `Click → send request → (not done yet) → click again → second request ❌`.
+3. **❌ Attempts that didn't work** (if any) and why.
+4. **🧪 Reproduce it yourself:** one simple way for the user to make the bug appear again and see it with their own eyes.
+5. **🔁 Other places in the project that could have the same bug** (if any, at most 2).
+6. **❓ One check question** for the user to answer; wait for the answer before commenting.
 
-Nếu tham số có chữ "lưu" hoặc "save": nối khối 🧩 vào `LEARNING_NOTES.md` dưới mục `## 🧩 Case khó` (tạo nếu chưa có).
+If the arguments contain "save": append the 🧩 block to `LEARNING_NOTES.md` under a `## 🧩 Hard cases` heading (create it if missing).

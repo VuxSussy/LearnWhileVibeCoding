@@ -1,32 +1,34 @@
 ---
 name: learn-while-coding
-description: Dạy người vibe code hiểu những gì đang làm. Dùng khi người dùng là người mới, nói "giải thích", "mình không hiểu", "dạy mình", "tại sao", hoặc khi đang tạo/sửa code, chạy lệnh, cài thư viện cho người học. Mỗi bước kèm giải thích 2–3 dòng dễ hiểu.
+description: Teach vibe coders what is happening while you build. Use when the user is a beginner, says "explain", "I don't understand", "teach me", "why", or while creating/editing code, running commands or installing libraries for a learner. Every step gets a plain 2-3 line explanation.
 ---
 
 # Learn While Coding
 
-Mục tiêu: người dùng vừa làm ra sản phẩm, vừa **hiểu** nó. Sau buổi làm việc họ phải tự giải thích lại được.
+Goal: the user ships the product **and understands it**. After the session they should be able to explain it back.
 
-## Định dạng cho MỖI bước (2–3 dòng)
+## Format for EVERY step (2-3 lines)
 ```
-📘 Đang làm: <làm gì, lời thường>
-💡 Vì sao: <lý do / nếu không làm thì sao>
-🔑 Thuật ngữ: <1 khái niệm mới = định nghĩa 1 câu + ví dụ đời thường>   (tuỳ chọn)
+📘 Doing: <what is happening, plain words>
+💡 Why: <the reason / what goes wrong without it>
+🔑 Term: <one new concept = one-sentence definition + everyday analogy>   (optional)
 ```
 
-## Nguyên tắc
-- **Ngắn:** tối đa 3 dòng mỗi bước. Muốn sâu hơn → gợi ý `/explain`.
-- **Dễ:** viết cho học sinh cấp 3 hiểu được. Thay biệt ngữ bằng so sánh đời thường.
-- **Đúng trọng tâm:** chỉ giải thích bước có ý nghĩa (tạo file, logic mới, lệnh terminal, thư viện, quyết định thiết kế). Bỏ qua bước vụn vặt như sửa dấu chấm phẩy.
-- **Thuật ngữ mới chỉ giải thích lần đầu** xuất hiện trong session.
-- **Vừa giải xong case khó** (bug phải thử nhiều lần, nguyên nhân ẩn) → dùng thêm skill `hard-case-explainer` với khối 🧩.
-- **Kết thúc việc lớn** bằng `🎯 Bài học rút ra: <1 câu>`.
-- Thỉnh thoảng (khoảng mỗi 3–4 bước lớn) hỏi 1 câu kiểm tra nhanh, ví dụ: "Bạn đoán xem nếu xoá dòng này thì chuyện gì xảy ra?"
+## Principles
+- **Short:** 3 lines per step at most. For depth, suggest `/explain`.
+- **Simple:** a high-school student should follow it. Replace jargon with everyday analogies.
+- **Focused:** only explain meaningful steps (new files, new logic, terminal commands, libraries, design decisions). Skip trivial ones like fixing a semicolon.
+- **New terms are explained only the first time** they appear in the session.
+- **Just solved a hard case** (a bug that took several tries, a hidden cause) → also use skill `hard-case-explainer` with a 🧩 block.
+- **Notable algorithm or pattern** in the code you wrote or read → add a `🧮 Algorithm:` line (skill `algorithm-spotter`).
+- **After a turn with changes**, list them in a short `🧾 What I did` block (one line per action).
+- **End big pieces of work** with `🎯 Takeaway: <one sentence>`.
+- Every 3-4 big steps, ask one quick check question, e.g. "Guess what happens if we delete this line?"
 
-## Ví dụ tốt
-📘 **Đang làm:** Chạy `npm install express` để tải thư viện Express về dự án.
-💡 **Vì sao:** Express giúp tạo web server chỉ vài dòng, thay vì tự viết hàng trăm dòng xử lý mạng.
-🔑 **Thuật ngữ:** *Thư viện* = code người khác viết sẵn, giống mua bánh có sẵn thay vì tự nướng.
+## Good example
+📘 **Doing:** Running `npm install express` to download the Express library into the project.
+💡 **Why:** Express lets you create a web server in a few lines instead of writing hundreds of lines of networking code.
+🔑 **Term:** *Library* = code someone else already wrote, like buying a ready-made cake instead of baking it yourself.
 
-## Ví dụ chưa tốt (tránh)
-"Mình dùng middleware để parse JSON body theo chuẩn RFC 8259 nhằm đảm bảo idempotency..." → quá nhiều biệt ngữ, không có so sánh, quá dài.
+## Bad example (avoid)
+"We use middleware to parse the JSON body per RFC 8259 to guarantee idempotency..." → too much jargon, no analogy, too long.

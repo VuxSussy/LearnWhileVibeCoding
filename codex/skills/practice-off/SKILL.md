@@ -1,7 +1,7 @@
 ---
 name: practice-off
-description: Tắt chế độ tự viết — Claude tự làm hết như bình thường (vẫn giải thích). Dùng khi người dùng gõ $practice-off.
+description: Turn off practice mode — Claude writes everything as usual (still explains). Use when the user types $practice-off.
 ---
-Trước tiên, chạy lệnh shell sau: `rm -f ~/.codex/vibe-learning.practice`
+First, run this shell command: `rm -f ~/.codex/vibe-learning.practice`
 
-Chế độ practice đã TẮT. Ngừng giao nhiệm vụ tự viết trừ khi người dùng gõ `$practice`. Báo cho người dùng 1 dòng.
+Practice mode is now OFF. Stop handing over coding tasks unless the user runs `$practice`. Tell the user in one line.

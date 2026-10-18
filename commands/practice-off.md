@@ -1,7 +1,7 @@
 ---
-description: Tắt chế độ tự viết — Claude tự làm hết như bình thường (vẫn giải thích)
+description: Turn off practice mode — Claude writes everything as usual (still explains)
 allowed-tools: Bash(rm:*)
 ---
 !`rm -f ~/.claude/vibe-learning.practice`
 
-Chế độ practice đã TẮT. Ngừng giao nhiệm vụ tự viết trừ khi người dùng gõ `/practice`. Báo cho người dùng 1 dòng.
+Practice mode is now OFF. Stop handing over coding tasks unless the user runs `/practice`. Tell the user in one line.

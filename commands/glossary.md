@@ -1,9 +1,9 @@
 ---
-description: Liệt kê và giải nghĩa các thuật ngữ lập trình đã xuất hiện trong session
-argument-hint: [thuật ngữ cụ thể - tuỳ chọn]
+description: List and define the programming terms that came up in this session
+argument-hint: [specific term - optional]
 ---
-Nếu có thuật ngữ cụ thể ($ARGUMENTS): giải thích nó trong 2–3 dòng bằng lời thường + 1 ví dụ đời thường + chỗ nó xuất hiện trong code hiện tại (nếu có).
+With a specific term ($ARGUMENTS): explain it in 2-3 plain lines + one everyday example + where it appears in the current code (if it does).
 
-Nếu để trống: lập bảng tất cả thuật ngữ kỹ thuật đã xuất hiện trong session:
-| Thuật ngữ | Nghĩa dễ hiểu (1 câu) | Ví dụ đời thường |
-Sắp xếp từ cơ bản đến nâng cao.
+Without arguments: build a table of every technical term that came up in this session:
+| Term | Plain meaning (1 sentence) | Everyday example |
+Sorted from basic to advanced.

@@ -1,10 +1,10 @@
 ---
-description: Đố nhanh 3 câu về những gì vừa làm để kiểm tra mình đã hiểu chưa
-argument-hint: [chủ đề - tuỳ chọn]
+description: A quick 3-question quiz about what was just built, to check you really understood it
+argument-hint: [topic - optional]
 ---
-Tạo bài đố nhanh **3 câu** dựa trên những gì đã làm trong session này (hoặc chủ đề: $ARGUMENTS).
+Create a quick **3-question** quiz based on what was done in this session (or on this topic: $ARGUMENTS).
 
-Quy tắc:
-- Câu hỏi thực tế, gắn với code của chính người dùng (ví dụ: "Nếu xoá dòng X thì chuyện gì xảy ra?").
-- Trắc nghiệm A/B/C hoặc trả lời ngắn; từ dễ đến khó.
-- **KHÔNG đưa đáp án ngay.** Chờ người dùng trả lời, sau đó chấm từng câu và giải thích đáp án đúng trong 2–3 dòng, khen phần làm đúng.
+Rules:
+- Practical questions tied to the user's own code (e.g. "What happens if we delete line X?").
+- Multiple choice A/B/C or short answer; from easy to hard.
+- **Do NOT reveal the answers yet.** Wait for the user to answer, then grade each question, explain the right answer in 2-3 lines, and praise what they got right.

@@ -1,13 +1,14 @@
 ---
-description: Giải thích dễ hiểu một file, đoạn code, lệnh hoặc khái niệm (mặc định là thay đổi gần nhất)
-argument-hint: [file | đoạn code | khái niệm]
+description: Explain a file, snippet, command or concept in plain words (defaults to the latest change)
+argument-hint: [file | snippet | concept]
 ---
-Giải thích cho người mới học: $ARGUMENTS
-(Nếu để trống, giải thích thay đổi/lệnh gần nhất trong cuộc trò chuyện.)
+Explain this for a beginner: $ARGUMENTS
+(If empty, explain the most recent change or command in the conversation.)
 
-Cách trình bày:
-1. **Tóm tắt 1 câu:** thứ này làm gì.
-2. **Từng phần quan trọng:** mỗi phần 2–3 dòng, lời thường, có so sánh đời thường.
-3. **Luồng chạy:** mô tả ngắn dữ liệu/chương trình đi từ đâu tới đâu (dạng mũi tên A → B → C).
-4. **🎯 Điều cần nhớ:** 1–2 gạch đầu dòng.
-Không dùng biệt ngữ mà không giải nghĩa.
+Structure:
+1. **One-sentence summary:** what this thing does.
+2. **Each important part:** 2-3 plain lines each, with an everyday analogy.
+3. **Flow:** briefly show where the data/program goes, as arrows (A → B → C).
+4. **🧮 Algorithms/patterns** used, if any: one line each (skill `algorithm-spotter`).
+5. **🎯 Remember:** 1-2 bullet points.
+Never use jargon without defining it.

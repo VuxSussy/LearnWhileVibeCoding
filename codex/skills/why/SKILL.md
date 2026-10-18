@@ -1,11 +1,11 @@
 ---
 name: why
-description: Vì sao chọn cách làm này? So sánh với các cách khác. Dùng khi người dùng gõ $why (có thể kèm: [quyết định cần giải thích]).
+description: Why this approach? Compare it with the alternatives. Use when the user types $why (optionally followed by: [decision to explain]).
 ---
-Giải thích vì sao chọn cách làm sau (mặc định là quyết định gần nhất): (phần người dùng viết kèm khi gọi skill, nếu có)
+Explain why this approach was chosen (defaults to the most recent decision): (whatever the user wrote after invoking the skill, if anything)
 
-Trình bày:
-- 💡 **Lý do chọn** (2–3 dòng, lời thường).
-- 🔀 **Cách khác có thể làm:** 1–2 phương án, mỗi cái 1 dòng gồm ưu/nhược.
-- ⚠️ **Nếu làm sai/bỏ qua thì sao:** 1–2 dòng.
-- 🧭 **Khi nào nên đổi sang cách khác:** 1 dòng.
+Structure:
+- 💡 **Why this one** (2-3 plain lines).
+- 🔀 **Other ways to do it:** 1-2 alternatives, one line each with pros/cons.
+- ⚠️ **What goes wrong if it's done badly or skipped:** 1-2 lines.
+- 🧭 **When to switch to another approach:** 1 line.

@@ -1,7 +1,7 @@
 ---
-description: Tắt chế độ thân thiện ADHD (vẫn giữ giải thích 2–3 dòng bình thường)
+description: Turn off ADHD-friendly mode (normal 2-3 line explanations stay on)
 allowed-tools: Bash(rm:*)
 ---
 !`rm -f ~/.claude/vibe-learning.adhd`
 
-Chế độ ADHD đã TẮT. Ngừng áp dụng skill `i-have-adhd`; vẫn giữ giải thích 2–3 dòng của `learn-while-coding` nếu chế độ học còn bật. Báo cho người dùng 1 dòng.
+ADHD-friendly mode is now OFF. Stop applying skill `i-have-adhd`; keep the 2-3 line explanations of `learn-while-coding` if learning mode is still on. Tell the user in one line.
