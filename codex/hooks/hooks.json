@@ -29,6 +29,17 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/hooks/type-it-guard.py\""
+          }
+        ]
+      }
     ]
   }
 }

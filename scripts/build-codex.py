@@ -21,7 +21,7 @@ def to_codex_text(text):
     # /explain, /hard-case... -> $explain, $hard-case (Codex invokes skills with $)
     names = "|".join(sorted(map(re.escape, COMMANDS), key=len, reverse=True))
     text = re.sub(rf"(?<![\w/.~-])/({names})(?![\w-])", r"$\1", text)
-    text = re.sub(r"\$(learn|adhd|practice)-on\|off", r"$\1-on / $\1-off", text)
+    text = re.sub(r"\$([\w-]+?)-on\|off", r"$\1-on / $\1-off", text)
     return text
 
 
@@ -72,7 +72,7 @@ def build():
         dest.mkdir()
         (dest / "SKILL.md").write_text(convert_command(cmd.stem, cmd.read_text()))
 
-    # 3. Hooks: same SessionStart / UserPromptSubmit / PostToolUse events; toggles live in ~/.codex.
+    # 3. Hooks: same SessionStart / UserPromptSubmit / PreToolUse / PostToolUse events; toggles live in ~/.codex.
     shutil.copytree(ROOT / "hooks", OUT / "hooks")
     for f in (OUT / "hooks").iterdir():
         f.write_text(to_codex_text(f.read_text()))

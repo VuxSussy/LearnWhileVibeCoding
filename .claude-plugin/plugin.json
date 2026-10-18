@@ -1,8 +1,8 @@
 {
   "name": "vibe-learning",
   "displayName": "VibeLearning",
-  "version": "2.0.0",
-  "description": "Learn while you vibe code: Claude explains every step in 2-3 plain lines, shows what it did, tours the functions in a file, names the algorithms it finds, breaks down the hard bugs it solved, lets you write key lines yourself, and has an ADHD-friendly mode.",
+  "version": "2.1.0",
+  "description": "Learn while you vibe code: Claude explains every step in 2-3 plain lines, shows what it did, tours the functions in a file, names the algorithms it finds, breaks down the hard bugs it solved, lets you write key lines and type the git/npm commands yourself, and has an ADHD-friendly mode.",
   "author": {
     "name": "VuxSussy",
     "url": "https://github.com/VuxSussy"
