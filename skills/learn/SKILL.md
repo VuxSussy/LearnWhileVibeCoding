@@ -1,6 +1,6 @@
 ---
 name: learn
-description: Teach vibe coders what is happening while you build: every step gets a plain 2-3 line explanation. Use when the user is a beginner, says "explain", "I don't understand", "teach me", "why", or while creating/editing code, running commands or installing libraries for a learner. Invoke with `on` / `off` to turn the automatic explanations on or off.
+description: Teach vibe coders what is happening while you build: every step gets a plain 2-3 line explanation. Use when the user is a beginner, says "explain", "I don't understand", "teach me", "why", or while creating/editing code, running commands or installing libraries for a learner.
 ---
 
 # Learn While Coding
@@ -8,10 +8,7 @@ description: Teach vibe coders what is happening while you build: every step get
 Goal: the user ships the product **and understands it**. After the session they should be able to explain it back.
 
 ## Turning the mode on or off
-Only when the user explicitly asks (e.g. invoking this skill with `on` or `off`, or "turn this mode on/off"). Never toggle it on your own when this skill was picked automatically.
-- **on:** run `rm -f ~/.claude/vibe-learning.off`, then explain every meaningful step as described below.
-- **off:** run `mkdir -p ~/.claude && touch ~/.claude/vibe-learning.off`, then stop adding 📘/💡/🔑 blocks for the rest of the session unless the user asks.
-The setting is remembered for future sessions. Confirm in one line what changed and how to undo it.
+Only the `/learn-on` and `/learn-off` commands switch the automatic explanations; they flip the setting directly, whatever language the user writes in. Never create or delete the VibeLearning flag files yourself, and never claim the mode changed unless one of those commands ran. If the user asks in their own words to switch it, tell them to type `/learn-on` or `/learn-off`.
 
 ## Format for EVERY step (2-3 lines)
 ```

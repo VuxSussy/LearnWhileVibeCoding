@@ -6,6 +6,7 @@ Run from the repository root:
 Every test uses a throwaway HOME, so your real ~/.claude and ~/.codex are never touched.
 """
 import json
+import re
 import os
 import subprocess
 import sys
@@ -180,30 +181,37 @@ class SessionHooksTest(unittest.TestCase):
 
 class PluginLayoutTest(unittest.TestCase):
     SKILLS = ROOT / "skills"
-    # Mode skill -> the flag file its on/off section must touch (learn's flag means OFF).
-    MODES = {"learn": "off", "practice": "practice", "i-have-adhd": "adhd", "type-it": "typeit"}
+    COMMANDS = ROOT / "commands"
+    # Mode command prefix -> flag file. learn's flag means OFF, so learn-on deletes it.
+    MODES = {"learn": "off", "practice": "practice", "adhd": "adhd", "type-it": "typeit"}
 
     def test_no_command_duplicates_a_skill(self):
         skills = {p.name for p in self.SKILLS.iterdir()}
-        commands = {p.stem for p in (ROOT / "commands").glob("*.md")}
+        commands = {p.stem for p in self.COMMANDS.glob("*.md")}
         self.assertEqual(skills & commands, set())
-        for skill in skills:
-            for command in commands:
-                with self.subTest(skill=skill, command=command):
-                    self.assertFalse(command.startswith(skill + "-"), "toggles belong inside the skill")
 
     def test_skill_folder_matches_its_name(self):
         for folder in self.SKILLS.iterdir():
             with self.subTest(skill=folder.name):
                 self.assertIn(f"\nname: {folder.name}\n", (folder / "SKILL.md").read_text())
 
-    def test_each_mode_skill_can_turn_itself_on_and_off(self):
-        for skill, flag in self.MODES.items():
-            text = (self.SKILLS / skill / "SKILL.md").read_text()
-            with self.subTest(skill=skill):
-                self.assertIn("## Turning the mode on or off", text)
-                self.assertIn(f"~/.claude/vibe-learning.{flag}", text)
+    def test_each_mode_has_deterministic_on_and_off_commands(self):
+        flag_path = "~/.claude/vibe-learning.{}"
+        for mode, flag in self.MODES.items():
+            on = (self.COMMANDS / f"{mode}-on.md").read_text()
+            off = (self.COMMANDS / f"{mode}-off.md").read_text()
+            with self.subTest(mode=mode):
+                # The switch must be a !`...` line the harness runs itself, not an instruction to the AI.
+                creates, deletes = (off, on) if flag == "off" else (on, off)
+                self.assertRegex(creates, r"(?m)^!`mkdir -p ~/\.claude && touch " + re.escape(flag_path.format(flag)) + "`$")
+                self.assertRegex(deletes, r"(?m)^!`rm -f " + re.escape(flag_path.format(flag)) + "`$")
                 self.assertIn(f'"$FLAG.{flag}"', (HOOKS / "session-start.sh").read_text())
+
+    def test_skills_never_switch_modes_themselves(self):
+        for skill in self.SKILLS.iterdir():
+            text = (skill / "SKILL.md").read_text()
+            with self.subTest(skill=skill.name):
+                self.assertNotRegex(text, r"(touch|rm -f) ~/\.claude/vibe-learning\.")
 
 
 class CodexBuildTest(unittest.TestCase):

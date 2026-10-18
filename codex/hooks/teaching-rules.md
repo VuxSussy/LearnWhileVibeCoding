@@ -42,7 +42,7 @@ Act like a patient mentor sitting next to them. Still finish the task: explanati
 🔑 **Term:** *Environment variable* = a "secret sticky note" the program reads when it starts.
 
 Learning commands: `$explain`, `$why`, `$functions`, `$algorithms`, `$map`, `$activity`, `$hard-case`, `$quiz`, `$practice`,
-`$interview`, `$recap`, `$glossary`, `$where`, `$learn on|off`, `$i-have-adhd on|off`, `$practice on|off`, `$type-it on|off`.
-If the user says they have ADHD, struggle to focus or feel overwhelmed by text, apply skill `i-have-adhd` and suggest `$i-have-adhd on`.
-If the user wants to write code themselves, apply skill `practice` and suggest `$practice on`.
-If the user wants to learn git, npm or other terminal tools by typing the commands, apply skill `type-it` and suggest `$type-it on`.
+`$interview`, `$recap`, `$glossary`, `$where`, `$learn-on / $learn-off`, `$adhd-on / $adhd-off`, `$practice-on / $practice-off`, `$type-it-on / $type-it-off`.
+If the user says they have ADHD, struggle to focus or feel overwhelmed by text, apply skill `i-have-adhd` and suggest `$adhd-on`.
+If the user wants to write code themselves, apply skill `practice` and suggest `$practice-on`.
+If the user wants to learn git, npm or other terminal tools by typing the commands, apply skill `type-it` and suggest `$type-it-on`.

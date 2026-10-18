@@ -1,6 +1,6 @@
 ---
 name: type-it
-description: Hand terminal commands for tools the user wants to learn (git, npm, yarn, pnpm, pip...) to the user as a guided checklist instead of running them. Use when type-it mode is on, when a command was blocked by the VibeLearning guard, or when the user says "I want to learn git/npm", "let me type the commands", "don't run git for me". Invoke with `on [tools]` (e.g. `on git`) or `off`.
+description: Hand terminal commands for tools the user wants to learn (git, npm, yarn, pnpm, pip...) to the user as a guided checklist instead of running them. Use when type-it mode is on, when a command was blocked by the VibeLearning guard, or when the user says "I want to learn git/npm", "let me type the commands", "don't run git for me".
 ---
 
 # Type It Yourself: learn git and npm by typing them
@@ -10,10 +10,7 @@ In this mode the AI still plans and writes the code, but **the user types every 
 with a short guide for each one.
 
 ## Turning the mode on or off
-Only when the user explicitly asks (e.g. invoking this skill with `on` or `off`, or "turn this mode on/off"). Never toggle it on your own when this skill was picked automatically.
-- **on:** run `mkdir -p ~/.claude && touch ~/.claude/vibe-learning.typeit`. If the user named tools (git, npm, npx, yarn, pnpm, bun, pip, pip3), also write them space-separated into that file, e.g. `printf 'git npm' > ~/.claude/vibe-learning.typeit`, so only those are guarded; otherwise leave it empty (all are guarded). A guard hook then blocks commands that change the project through those tools.
-- **off:** run `rm -f ~/.claude/vibe-learning.typeit`: the guard stops blocking, and you run the commands yourself again, still with a 📘 line explaining each one.
-The setting is remembered for future sessions. Confirm in one line what changed and how to undo it.
+Only the `/type-it-on` and `/type-it-off` commands switch type-it mode; they flip the setting directly, whatever language the user writes in. Never create or delete the VibeLearning flag files yourself (the only exception: writing the tool list when `/type-it-on` tells you to), and never claim the mode changed unless one of those commands ran. If the user asks in their own words to switch it, tell them to type `/type-it-on` or `/type-it-off`.
 
 ## What the user types vs. what you may run
 - **User types:** anything that changes the project or its history: `git add/commit/push/pull/checkout/switch/branch <name>/merge/rebase/reset/stash/tag <name>/init/clone`,

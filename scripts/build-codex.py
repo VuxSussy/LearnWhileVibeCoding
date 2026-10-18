@@ -20,9 +20,10 @@ INVOCABLE = COMMANDS + sorted(p.name for p in (ROOT / "skills").iterdir() if (p 
 def to_codex_text(text):
     """Rewrite the parts that only make sense in Claude Code into Codex terms."""
     text = text.replace("~/.claude", "~/.codex").replace("$HOME/.claude", "$HOME/.codex")
-    # /explain, /type-it on... -> $explain, $type-it on (Codex invokes skills with $)
+    # /explain, /type-it-on... -> $explain, $type-it on (Codex invokes skills with $)
     names = "|".join(sorted(map(re.escape, INVOCABLE), key=len, reverse=True))
     text = re.sub(rf"(?<![\w/.~-])/({names})(?![\w-])", r"$\1", text)
+    text = re.sub(r"\$([\w-]+?)-on\|off", r"$\1-on / $\1-off", text)
     return text
 
 

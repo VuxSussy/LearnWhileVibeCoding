@@ -1,6 +1,6 @@
 ---
 name: practice
-description: Let the vibe coder write a small, meaningful piece of code (3-10 lines) themselves, with tiered hints and feedback. Use when the user says "let me write it", "I want to try", "don't do it all for me", or when practice mode is on. Invoke with no arguments for one task right now (optionally naming the spot), or with `on` / `off` to leave one spot per new feature automatically.
+description: Let the vibe coder write a small, meaningful piece of code (3-10 lines) themselves, with tiered hints and feedback. Use when the user says "let me write it", "I want to try", "don't do it all for me", or when practice mode is on. Invoke it for one task right now (optionally naming the spot).
 ---
 
 # Learn by Doing: write a little, understand a lot
@@ -9,13 +9,10 @@ Reading explanations helps you understand; **writing it yourself** helps you rem
 So only hand over **one small, meaningful piece, with a safety net**.
 
 ## One task right now
-Invoked without `on`/`off`: pick **one** meaningful spot in the current work (or the spot the user named), prepare it and hand it over as described below, then stop and wait.
+When invoked directly: pick **one** meaningful spot in the current work (or the spot the user named), prepare it and hand it over as described below, then stop and wait.
 
 ## Turning the mode on or off
-Only when the user explicitly asks (e.g. invoking this skill with `on` or `off`, or "turn this mode on/off"). Never toggle it on your own when this skill was picked automatically.
-- **on:** run `mkdir -p ~/.codex && touch ~/.codex/vibe-learning.practice`: for each new feature, leave at most one meaningful spot for the user. Mention they can say "just do it" any time to skip.
-- **off:** run `rm -f ~/.codex/vibe-learning.practice`: stop handing over tasks unless the user asks for one.
-The setting is remembered for future sessions. Confirm in one line what changed and how to undo it.
+Only the `$practice-on` and `$practice-off` commands switch practice mode; they flip the setting directly, whatever language the user writes in. Never create or delete the VibeLearning flag files yourself, and never claim the mode changed unless one of those commands ran. If the user asks in their own words to switch it, tell them to type `$practice-on` or `$practice-off`.
 
 ## Pick the right spot
 Good: a **decision** with several valid answers: a condition, error handling, a formula, how to sort/filter data, a message shown to the user.
