@@ -178,6 +178,34 @@ class SessionHooksTest(unittest.TestCase):
         self.assertEqual(self.home.run(HOOKS / "reminder.sh", runner="sh"), "")
 
 
+class PluginLayoutTest(unittest.TestCase):
+    SKILLS = ROOT / "skills"
+    # Mode skill -> the flag file its on/off section must touch (learn's flag means OFF).
+    MODES = {"learn": "off", "practice": "practice", "i-have-adhd": "adhd", "type-it": "typeit"}
+
+    def test_no_command_duplicates_a_skill(self):
+        skills = {p.name for p in self.SKILLS.iterdir()}
+        commands = {p.stem for p in (ROOT / "commands").glob("*.md")}
+        self.assertEqual(skills & commands, set())
+        for skill in skills:
+            for command in commands:
+                with self.subTest(skill=skill, command=command):
+                    self.assertFalse(command.startswith(skill + "-"), "toggles belong inside the skill")
+
+    def test_skill_folder_matches_its_name(self):
+        for folder in self.SKILLS.iterdir():
+            with self.subTest(skill=folder.name):
+                self.assertIn(f"\nname: {folder.name}\n", (folder / "SKILL.md").read_text())
+
+    def test_each_mode_skill_can_turn_itself_on_and_off(self):
+        for skill, flag in self.MODES.items():
+            text = (self.SKILLS / skill / "SKILL.md").read_text()
+            with self.subTest(skill=skill):
+                self.assertIn("## Turning the mode on or off", text)
+                self.assertIn(f"~/.claude/vibe-learning.{flag}", text)
+                self.assertIn(f'"$FLAG.{flag}"', (HOOKS / "session-start.sh").read_text())
+
+
 class CodexBuildTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

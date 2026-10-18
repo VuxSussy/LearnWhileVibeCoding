@@ -1,11 +1,17 @@
 ---
-name: learn-while-coding
-description: Teach vibe coders what is happening while you build. Use when the user is a beginner, says "explain", "I don't understand", "teach me", "why", or while creating/editing code, running commands or installing libraries for a learner. Every step gets a plain 2-3 line explanation.
+name: learn
+description: Teach vibe coders what is happening while you build: every step gets a plain 2-3 line explanation. Use when the user is a beginner, says "explain", "I don't understand", "teach me", "why", or while creating/editing code, running commands or installing libraries for a learner. Invoke with `on` / `off` to turn the automatic explanations on or off.
 ---
 
 # Learn While Coding
 
 Goal: the user ships the product **and understands it**. After the session they should be able to explain it back.
+
+## Turning the mode on or off
+Only when the user explicitly asks (e.g. invoking this skill with `on` or `off`, or "turn this mode on/off"). Never toggle it on your own when this skill was picked automatically.
+- **on:** run `rm -f ~/.claude/vibe-learning.off`, then explain every meaningful step as described below.
+- **off:** run `mkdir -p ~/.claude && touch ~/.claude/vibe-learning.off`, then stop adding 📘/💡/🔑 blocks for the rest of the session unless the user asks.
+The setting is remembered for future sessions. Confirm in one line what changed and how to undo it.
 
 ## Format for EVERY step (2-3 lines)
 ```
@@ -19,8 +25,8 @@ Goal: the user ships the product **and understands it**. After the session they 
 - **Simple:** a high-school student should follow it. Replace jargon with everyday analogies.
 - **Focused:** only explain meaningful steps (new files, new logic, terminal commands, libraries, design decisions). Skip trivial ones like fixing a semicolon.
 - **New terms are explained only the first time** they appear in the session.
-- **Just solved a hard case** (a bug that took several tries, a hidden cause) → also use skill `hard-case-explainer` with a 🧩 block.
-- **Notable algorithm or pattern** in the code you wrote or read → add a `🧮 Algorithm:` line (skill `algorithm-spotter`).
+- **Just solved a hard case** (a bug that took several tries, a hidden cause) → also use skill `hard-case` with a 🧩 block.
+- **Notable algorithm or pattern** in the code you wrote or read → add a `🧮 Algorithm:` line (skill `algorithms`).
 - **After a turn with changes**, list them in a short `🧾 What I did` block (one line per action).
 - **End big pieces of work** with `🎯 Takeaway: <one sentence>`.
 - Every 3-4 big steps, ask one quick check question, e.g. "Guess what happens if we delete this line?"

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PreToolUse hook for type-it-yourself mode.
+"""PreToolUse hook for type-it mode.
 
 While ~/.codex/vibe-learning.typeit exists, block shell commands that use git or a
 package manager to *change* something, so the AI hands them to the user to type instead.
@@ -99,9 +99,9 @@ def main():
 
     listed = ", ".join(f"`{h}`" for h in hits)
     reason = (
-        f"VibeLearning type-it-yourself mode is ON: the user wants to type {listed} themselves to learn it. "
+        f"VibeLearning type-it mode is ON: the user wants to type {listed} themselves to learn it. "
         "Do not run it, and do not work around it (another tool, a script, or editing files such as "
-        "package.json or .git by hand). Add it to the ⌨️ Your turn checklist (skill type-it-yourself) "
+        "package.json or .git by hand). Add it to the ⌨️ Your turn checklist (skill type-it) "
         "with its explanation, then stop and wait until the user says they ran it. "
         "Read-only checks like `git status` or `npm ls` are still allowed for verifying their work."
     )

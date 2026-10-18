@@ -1,6 +1,6 @@
 ---
-name: algorithm-spotter
-description: Identify the algorithms, data structures and design patterns used in code (sorting, searching, recursion, hashing, caching/memoization, debounce/throttle, retry with backoff, BFS/DFS, dynamic programming, two pointers, observer, singleton, MVC...) and explain each in plain words with speed (Big-O) in everyday terms. Use when the user asks "what algorithm is this", "how does this work", "is this efficient", "why is it slow", runs $algorithms, or when you write code built on a notable algorithm.
+name: algorithms
+description: Identify the algorithms, data structures and design patterns used in code (sorting, searching, recursion, hashing, caching/memoization, debounce/throttle, retry with backoff, BFS/DFS, dynamic programming, two pointers, observer, singleton, MVC...) and explain each in plain words with speed (Big-O) in everyday terms. Use when the user asks "what algorithm is this", "how does this work", "is this efficient", "why is it slow", or when you write code built on a notable algorithm. Invoke with a file, function or folder (defaults to the latest code discussed).
 ---
 
 # Algorithm Spotter: name the technique, explain the idea
@@ -13,6 +13,8 @@ into something they can look up, reason about and reuse.
 - **Data structures:** arrays/lists, hash maps/dictionaries/sets, stacks, queues, trees, graphs, linked lists, heaps/priority queues.
 - **Practical techniques:** caching/memoization, debounce/throttle, pagination, retry with exponential backoff, batching, lazy loading, rate limiting, optimistic UI updates, polling vs. webhooks.
 - **Design patterns:** observer/event listeners, pub-sub, singleton, factory, strategy, middleware chain, MVC/MVVM, state machine, dependency injection.
+
+Nothing named? Use the code written or discussed most recently in this conversation and say what you picked. **Read the code first.**
 
 Only report what is **actually in the code**, with file and line. If something is close to a known algorithm but not quite, say so ("a simplified version of ...").
 
@@ -42,3 +44,4 @@ Order findings from **most important** to least. End with:
 - No math jargon without the plain-words version next to it.
 - If the code has a real performance problem (e.g. an O(n²) loop over thousands of items, or a database query inside a loop), say so clearly and suggest the fix in one line.
 - Nothing notable found? Say so honestly instead of inventing something.
+- Found a real performance problem? Show a short before/after snippet of the fix, but don't apply it unless the user asks.

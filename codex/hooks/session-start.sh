@@ -1,5 +1,5 @@
 #!/bin/sh
-# Inject the teaching rules (plus the ADHD / practice / type-it-yourself rules when enabled) at the start of every session.
+# Inject the teaching rules (plus the ADHD / practice / type-it rules when enabled) at the start of every session.
 DIR="$(dirname "$0")"
 FLAG="$HOME/.codex/vibe-learning"
 # Make sure the activity log exists so $activity always has something to read.

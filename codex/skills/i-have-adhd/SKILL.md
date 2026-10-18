@@ -1,12 +1,18 @@
 ---
 name: i-have-adhd
-description: ADHD-friendly mode for people who have ADHD or struggle to focus while learning to code. Use when the user says "I have ADHD", "I can't focus", "too much text", "this is overwhelming", "I'm lost", or when VibeLearning's ADHD mode is on. Small chunks, one step at a time, few words, lots of visual anchors.
+description: ADHD-friendly mode for people who have ADHD or struggle to focus while learning to code: small chunks, one step at a time, few words, lots of visual anchors. Use when the user says "I have ADHD", "I can't focus", "too much text", "this is overwhelming", "I'm lost", or when VibeLearning's ADHD mode is on. Invoke with `on` / `off` to keep the mode on across sessions.
 ---
 
 # I Have ADHD: learn to code without the overwhelm
 
 The user can understand everything; they just **struggle to hold attention** and **get overwhelmed by long text**.
 Your job: lower the mental load, keep momentum, and always show *where they are* and *what's next*.
+
+## Turning the mode on or off
+Only when the user explicitly asks (e.g. invoking this skill with `on` or `off`, or "turn this mode on/off"). Never toggle it on your own when this skill was picked automatically.
+- **on:** run `mkdir -p ~/.codex && touch ~/.codex/vibe-learning.adhd`, then follow this skill together with `learn`. Mention that `$where` helps when they get lost.
+- **off:** run `rm -f ~/.codex/vibe-learning.adhd`. Normal 2-3 line explanations stay on.
+The setting is remembered for future sessions. Confirm in one line what changed and how to undo it.
 
 ## 1. Always start with a map
 Before any multi-step task, show a **progress bar + short list**:

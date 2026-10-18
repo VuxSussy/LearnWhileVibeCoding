@@ -53,7 +53,7 @@ A **Claude Code** (and **OpenAI Codex**) plugin that lets vibe coders **learn wh
 > 💡 **Idea:** Items are stored by their id, like lockers with numbers, so finding one doesn't mean checking them all.
 > ⏱️ **Speed:** O(1): the same time whether the cart has 3 items or 3,000.
 
-**`/type-it-on git`: you type the git commands**
+**`/type-it on git`: you type the git commands**
 
 > ⌨️ **Your turn in the terminal (2 commands)**
 >
@@ -91,17 +91,19 @@ Start a new session and learning mode turns on automatically. To update later, r
 
 ## 🧰 What's inside
 
-### Skills (Claude uses them automatically when they fit)
+### Skills: automatic, and also commands
 
-| Skill | What it does |
+Each skill kicks in on its own when it fits, and every skill is also a command you can type. Modes are turned on or off with the same command: `/learn off`, `/type-it on git`, and so on. Toggles are remembered across sessions.
+
+| Skill / command | What it does |
 |---|---|
-| `learn-while-coding` | The core teaching rules: 📘/💡/🔑 blocks, everyday analogies, no unexplained jargon. |
-| `hard-case-explainer` | After a tricky bug (it took several tries, the cause was hidden, or the error was misleading), explains the symptom, root cause, why the fix works, and how to spot it next time. |
-| `learn-by-doing` | Leaves 3–10 meaningful lines for **you** to write, marked with a `TODO`, plus step-by-step hints and feedback. |
-| `i-have-adhd` | Smaller chunks, a 🗺️ progress bar, short sentences with **bold keywords**, one next action at a time. |
-| `type-it-yourself` | Hands git / npm / pip commands to you as a `⌨️ Your turn` checklist (what it does, what each part means, what success looks like, common errors, warnings for risky commands), then checks your work. |
-| `code-tour` | Lists every function, method and class in a file with line numbers, explains each in one plain sentence, and shows how they call each other. |
-| `algorithm-spotter` | Names the algorithms, data structures and design patterns in the code, with Big-O speed translated into everyday words. |
+| `/learn [on \| off]` | The core teaching rules: 📘/💡/🔑 blocks, everyday analogies, no unexplained jargon. On by default; `off` silences the automatic explanations. |
+| `/hard-case [case] [save]` | After a tricky bug (it took several tries, the cause was hidden, or the error was misleading), explains the symptom, root cause, why the fix works, and how to spot it next time. Typed directly, it does a deep dive: flow before and after the fix, failed attempts, how to reproduce it, similar risks elsewhere. `save` keeps it in `LEARNING_NOTES.md`. |
+| `/functions <file> [function]` | A tour of a file: every function, method and class with its line number, what it does, inputs → output, and how they call each other. Add a function name for a step-by-step deep dive. |
+| `/algorithms [file \| function]` | Names the algorithms, data structures and design patterns in the code, with Big-O speed translated into everyday words and any real performance problems. |
+| `/practice [spot \| on \| off]` | Leaves 3–10 meaningful lines for **you** to write, marked with a `TODO`, plus step-by-step hints and feedback. Plain `/practice` gives you one task now; `on` leaves one spot in every new feature. |
+| `/type-it [on [tools] \| off]` | You type the git / npm / pip commands yourself from a `⌨️ Your turn` checklist (what it does, what each part means, what success looks like, common errors, warnings for risky commands), then the AI checks your work. `on` guards git, npm, npx, yarn, pnpm, bun and pip; `on git` guards only git. |
+| `/i-have-adhd [on \| off]` | Smaller chunks, a 🗺️ progress bar, short sentences with **bold keywords**, one next action at a time. Kicks in when you say you have ADHD; `on` keeps it for every session. |
 
 ### Commands
 
@@ -109,31 +111,23 @@ Start a new session and learning mode turns on automatically. To update later, r
 |---|---|
 | `/explain [thing]` | Explains a file, snippet, command or concept piece by piece. |
 | `/why [decision]` | Why this approach? Shows the alternatives and when to switch. |
-| `/functions <file> [function]` | A tour of a file: every function with its line number, what it does, inputs → output, and how they connect. Add a function name for a step-by-step deep dive. |
-| `/algorithms [file \| function]` | Points out the algorithms, data structures and design patterns, with speed in plain words and any real performance problems. |
 | `/map [folder]` | A plain-language map of the project: what each folder and key file is for, how a request flows through it, and where to start reading. |
 | `/activity [last N \| files \| commands]` | Everything the AI did this session (files read and changed, commands run) as a plain-language timeline. |
-| `/hard-case [case] [save]` | Deep dive into the hard bug that was just solved: flow before and after the fix, failed attempts, how to reproduce it yourself, and similar risks elsewhere in the project. |
 | `/quiz [topic]` | A 3-question quiz based on **your** code. Answers come after you reply. |
-| `/practice [spot]` | Gives you one small coding task right now, with hints. |
 | `/interview [practice]` | Generates talking points for explaining your project, or runs a mock interview one question at a time. |
 | `/recap [save]` | A study summary of the session (what you built, concepts, algorithms, hard cases, terms). Add `save` to append it to `LEARNING_NOTES.md`. |
 | `/glossary [term]` | A table of the terms you have met, each with a one-line meaning and an everyday example. |
 | `/where` | "Where was I?" Shows the goal, progress and the single next step. Useful after a break. |
-| `/learn-on` · `/learn-off` | Turns automatic explanations on or off. |
-| `/practice-on` · `/practice-off` | Turns on a mode where Claude leaves one small piece of each new feature for you to write. |
-| `/type-it-on [tools]` · `/type-it-off` | Type-it-yourself mode. `/type-it-on` guards git, npm, npx, yarn, pnpm, bun and pip; `/type-it-on git` guards only git. |
-| `/adhd-on` · `/adhd-off` | Turns ADHD-friendly mode on or off. |
 
-> Toggles are remembered across sessions. If another plugin uses the same command name, use the prefixed form, for example `/vibe-learning:explain`.
+> If another plugin uses the same name, use the prefixed form, for example `/vibe-learning:type-it on`.
 
 ### Hooks
 
 | Hook | What it does |
 |---|---|
-| `SessionStart` | Loads the teaching rules, plus the ADHD and practice rules if you turned them on, at the start of every session. |
+| `SessionStart` | Loads the teaching rules, plus the ADHD, practice and type-it rules if you turned them on, at the start of every session. |
 | `UserPromptSubmit` | Adds a one-line reminder on each turn so Claude keeps explaining, and keeps writing 🧮, 🧩 and 🧾 blocks, even in long sessions. |
-| `PreToolUse` | In type-it-yourself mode, blocks shell commands that change the project through git or a package manager (`git commit`, `npm install`, `pip install`...) and tells the AI to hand them to you instead. Read-only commands (`git status`, `git diff`, `npm ls`) and running the project (`npm test`) still work. Needs `python3`. |
+| `PreToolUse` | In type-it mode, blocks shell commands that change the project through git or a package manager (`git commit`, `npm install`, `pip install`...) and tells the AI to hand them to you instead. Read-only commands (`git status`, `git diff`, `npm ls`) and running the project (`npm test`) still work. Needs `python3`. |
 | `PostToolUse` | Writes one line per tool call (time, tool, file or command) to `~/.claude/vibe-learning/activity/`, which `/activity` reads. It prints nothing, so it costs no tokens. Needs `python3`. |
 
 ## 🤖 Using it with OpenAI Codex
@@ -154,7 +148,7 @@ Differences from the Claude Code version:
 
 | Claude Code | Codex |
 |---|---|
-| `/explain`, `/functions`, `/algorithms`… | `$explain`, `$functions`, `$algorithms`… (Codex plugins have no slash commands, so every command is packaged as a skill) |
+| `/explain`, `/functions`, `/type-it on`… | `$explain`, `$functions`, `$type-it on`… (Codex plugins have no slash commands, so every command is packaged as a skill) |
 | Toggles and the activity log stored in `~/.claude/` | Toggles and the activity log stored in `~/.codex/`. Codex may ask permission before writing there. |
 | Hooks run automatically | Hooks must be trusted once via `/hooks` |
 
@@ -170,7 +164,7 @@ The hooks and the Codex build have an automated test suite. It uses a temporary 
 python3 -m unittest discover -s tests -v
 ```
 
-## 🧠 ADHD-friendly mode (`/adhd-on`)
+## 🧠 ADHD-friendly mode (`/i-have-adhd on`)
 
 For people who **find it hard to stay focused** or **get overwhelmed by long text**. Each step is still explained in 2–3 lines, but:
 
@@ -190,7 +184,7 @@ You don't have to run a command. Just say *"I have ADHD"* or *"this is too much 
 1. Ask for what you want as usual, and read the 📘💡🔑 blocks as Claude works.
 2. When Claude fixes something tricky, read the 🧩 block. Use `/hard-case` if you want the full story.
 3. Something unclear? Use `/explain` or `/why`. Opened a file you don't recognize? Use `/functions` and `/algorithms`.
-4. Lost track of what the AI changed? Use `/activity`. Want to learn git or npm? Turn on `/type-it-on` and type the commands yourself.
+4. Lost track of what the AI changed? Use `/activity`. Want to learn git or npm? Run `/type-it on` and type the commands yourself.
 5. Finished a feature? Use `/practice` or `/quiz` to check that it sticks.
 6. At the end of the day, run `/recap save` to keep your notes, and `/interview` before a demo or project defense.
 
@@ -206,19 +200,19 @@ VibeLearning/
 │   ├── session-start.sh     # injects the rules at session start
 │   ├── reminder.sh          # per-turn reminder
 │   ├── log-activity.py      # records each tool call for /activity
-│   ├── type-it-guard.py     # blocks git/npm changes in type-it-yourself mode
-│   ├── typeit-rules.md      # extra rules when /type-it-on
+│   ├── type-it-guard.py     # blocks git/npm changes in type-it mode
+│   ├── typeit-rules.md      # extra rules when /type-it on
 │   ├── teaching-rules.md    # core teaching rules
-│   ├── adhd-rules.md        # extra rules when /adhd-on
-│   └── practice-rules.md    # extra rules when /practice-on
+│   ├── adhd-rules.md        # extra rules when /i-have-adhd on
+│   └── practice-rules.md    # extra rules when /practice on
 ├── skills/
-│   ├── learn-while-coding/SKILL.md
-│   ├── hard-case-explainer/SKILL.md
-│   ├── learn-by-doing/SKILL.md
+│   ├── learn/SKILL.md
+│   ├── hard-case/SKILL.md
+│   ├── practice/SKILL.md
 │   ├── i-have-adhd/SKILL.md
-│   ├── type-it-yourself/SKILL.md
-│   ├── code-tour/SKILL.md
-│   └── algorithm-spotter/SKILL.md
+│   ├── type-it/SKILL.md
+│   ├── functions/SKILL.md
+│   └── algorithms/SKILL.md
 ├── commands/                # slash commands
 ├── codex/                   # generated Codex build (plugin.json, skills/, hooks/)
 ├── .agents/plugins/marketplace.json   # Codex marketplace
@@ -234,7 +228,7 @@ To change the tone or format of the explanations, edit `hooks/teaching-rules.md`
 This plugin's ideas were inspired by the following projects. All text in this repository was written from scratch, and no code or prompts were copied.
 
 - **Anthropic's `explanatory-output-style` plugin** ([anthropics/claude-code](https://github.com/anthropics/claude-code/tree/main/plugins/explanatory-output-style)): codebase-specific "insight" notes written alongside the code. Here they became the shorter 🔍 Insight line and the 📘/💡/🔑 blocks.
-- **Anthropic's `learning-output-style` plugin** ([anthropics/claude-code](https://github.com/anthropics/claude-code/tree/main/plugins/learning-output-style)): asking the user to write small, meaningful pieces of code at decision points. Here this became `learn-by-doing`, adapted for beginners with step-by-step hints, a "just do it for me" escape, and an ADHD-sized variant.
+- **Anthropic's `learning-output-style` plugin** ([anthropics/claude-code](https://github.com/anthropics/claude-code/tree/main/plugins/learning-output-style)): asking the user to write small, meaningful pieces of code at decision points. Here this became `practice`, adapted for beginners with step-by-step hints, a "just do it for me" escape, and an ADHD-sized variant.
 - **[lyqqqq66666/vibe-coding-learning](https://github.com/lyqqqq66666/vibe-coding-learning)** (MIT): turning AI-written code into study notes and interview talking points. Here this became `/recap save`, the hard-case notes and `/interview`.
 
 ## 📄 License

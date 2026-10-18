@@ -1,6 +1,6 @@
 ---
-name: hard-case-explainer
-description: Explain a "hard case" the AI just solved so the vibe coder truly understands it. Use right after fixing a tricky bug, a confusing error, something that needed several attempts, or problems involving async/timing/memory/CORS/permissions/cache/library versions, or when the user asks "why did that fix it?", "what did you just change?", "explain this case".
+name: hard-case
+description: Explain a "hard case" the AI just solved so the vibe coder truly understands it. Use right after fixing a tricky bug, a confusing error, something that needed several attempts, or problems involving async/timing/memory/CORS/permissions/cache/library versions, or when the user asks "why did that fix it?", "what did you just change?", "explain this case". Invoke directly for a deep dive into the latest hard case (add `save` to keep it in LEARNING_NOTES.md).
 ---
 
 # Hard Case Explainer: turn hard bugs into lessons
@@ -39,3 +39,14 @@ If a wrong fix was tried first, add `❌ First attempt failed because: ...`. Tha
    🔎 **Root cause:** The first request **hadn't finished** when the second one was sent, like two people withdrawing from one account at the same moment.
    🛠️ **Fix & why it works:** **Disable the button** while sending and add a **unique order key** on the server, so even two sends create only one order.
    🧠 **Spot it next time:** The bug only happens **when you act fast**, so think "two things running on top of each other".
+
+## Deep dive (when the user invokes this skill directly)
+Dig into the case the user named, or the hardest case solved in this conversation. Present in this order, 2-3 plain lines per part:
+1. **The full 🧩 block** (symptom, root cause, fix & why it works, spot it next time).
+2. **🎬 Flow before and after the fix** as two arrow lines, e.g. `Click → send request → (not done yet) → click again → second request ❌`.
+3. **❌ Attempts that didn't work** (if any) and why.
+4. **🧪 Reproduce it yourself:** one simple way for the user to make the bug appear again and see it with their own eyes.
+5. **🔁 Other places in the project that could have the same bug** (if any, at most 2).
+6. **❓ One check question** for the user to answer; wait for the answer before commenting.
+
+If the user said "save": append the 🧩 block to `LEARNING_NOTES.md` under a `## 🧩 Hard cases` heading (create it if missing).
