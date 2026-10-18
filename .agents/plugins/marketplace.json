@@ -1,0 +1,12 @@
+{
+  "name": "learn-while-vibe-coding-marketplace",
+  "interface": { "displayName": "LearnWhileVibeCoding" },
+  "plugins": [
+    {
+      "name": "learn-while-vibe-coding",
+      "source": { "source": "local", "path": "./codex" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Education"
+    }
+  ]
+}

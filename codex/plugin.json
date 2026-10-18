@@ -1,0 +1,35 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "learn-while-vibe-coding",
+  "version": "1.3.0",
+  "description": "Learn while you vibe code: Claude explains every step in 2-3 plain lines, breaks down the hard bugs it just solved, lets you write key lines yourself, and has an ADHD-friendly mode.",
+  "author": {
+    "name": "VuxSussy",
+    "url": "https://github.com/VuxSussy"
+  },
+  "homepage": "https://github.com/VuxSussy/LearnWhileVibeCoding",
+  "repository": "https://github.com/VuxSussy/LearnWhileVibeCoding",
+  "license": "MIT",
+  "keywords": [
+    "learning",
+    "education",
+    "vibe-coding",
+    "beginner",
+    "vietnamese",
+    "adhd",
+    "accessibility",
+    "debugging",
+    "tutor"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "LearnWhileVibeCoding",
+        "shortDescription": "Learn while you vibe code",
+        "developerName": "VuxSussy",
+        "category": "Education",
+        "defaultPrompt": "$explain"
+      }
+    }
+  }
+}

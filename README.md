@@ -1,6 +1,6 @@
 # 🎓 LearnWhileVibeCoding
 
-A **Claude Code** plugin that lets vibe coders **learn while they build**, so you don't end up with an app that works but that you don't understand.
+A **Claude Code** (and **OpenAI Codex**) plugin that lets vibe coders **learn while they build**, so you don't end up with an app that works but that you don't understand.
 
 - Every meaningful step comes with a **2–3 line, plain-language explanation**.
 - Every **hard bug Claude solves** is turned into a short, reusable lesson.
@@ -83,6 +83,32 @@ Start a new session and learning mode turns on automatically. To update later, r
 | `SessionStart` | Loads the teaching rules, plus the ADHD and practice rules if you turned them on, at the start of every session. |
 | `UserPromptSubmit` | Adds a one-line reminder on each turn so Claude keeps explaining, and keeps writing 🧩 blocks, even in long sessions. |
 
+## 🤖 Using it with OpenAI Codex
+
+The same plugin ships a Codex build in [`codex/`](codex/), published through [`.agents/plugins/marketplace.json`](.agents/plugins/marketplace.json).
+
+```bash
+codex plugin marketplace add VuxSussy/LearnWhileVibeCoding
+```
+
+Then:
+
+1. Run `codex`, open `/plugins` and install **learn-while-vibe-coding**.
+2. Run `/hooks` and **trust** the plugin's two hooks. Codex skips plugin hooks until you review them, and without them the automatic explanations won't turn on.
+3. Start a new session.
+
+Differences from the Claude Code version:
+
+| Claude Code | Codex |
+|---|---|
+| `/explain`, `/hard-case`, `/quiz`… | `$explain`, `$hard-case`, `$quiz`… (Codex plugins have no slash commands, so every command is packaged as a skill) |
+| Toggles stored in `~/.claude/` | Toggles stored in `~/.codex/`. Codex may ask permission before writing there. |
+| Hooks run automatically | Hooks must be trusted once via `/hooks` |
+
+**No hooks?** Copy [`codex/hooks/teaching-rules.md`](codex/hooks/teaching-rules.md) into `~/.codex/AGENTS.md`, which Codex reads at the start of every session.
+
+> Maintainers: `codex/` is generated. Edit the Claude Code sources (`skills/`, `commands/`, `hooks/`), then run `python3 scripts/build-codex.py`.
+
 ## 🧠 ADHD-friendly mode (`/adhd-on`)
 
 For people who **find it hard to stay focused** or **get overwhelmed by long text**. Each step is still explained in 2–3 lines, but:
@@ -126,6 +152,9 @@ LearnWhileVibeCoding/
 │   ├── learn-by-doing/SKILL.md
 │   └── i-have-adhd/SKILL.md
 ├── commands/                # slash commands
+├── codex/                   # generated Codex build (plugin.json, skills/, hooks/)
+├── .agents/plugins/marketplace.json   # Codex marketplace
+├── scripts/build-codex.py   # regenerates codex/ from the Claude sources
 └── LICENSE
 ```
 
