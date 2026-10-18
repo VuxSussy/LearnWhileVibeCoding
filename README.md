@@ -162,6 +162,14 @@ Differences from the Claude Code version:
 
 > Maintainers: `codex/` is generated. Edit the Claude Code sources (`skills/`, `commands/`, `hooks/`), then run `python3 scripts/build-codex.py`.
 
+## 🧪 Tests
+
+The hooks and the Codex build have an automated test suite. It uses a temporary HOME, so your real settings are never touched:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
 ## 🧠 ADHD-friendly mode (`/adhd-on`)
 
 For people who **find it hard to stay focused** or **get overwhelmed by long text**. Each step is still explained in 2–3 lines, but:
@@ -215,6 +223,7 @@ VibeLearning/
 ├── codex/                   # generated Codex build (plugin.json, skills/, hooks/)
 ├── .agents/plugins/marketplace.json   # Codex marketplace
 ├── scripts/build-codex.py   # regenerates codex/ from the Claude sources
+├── tests/test_hooks.py      # automated tests for the hooks and the Codex build
 └── LICENSE
 ```
 
