@@ -15,7 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 OUT = DIST / "vibe-learning"
-REFERENCES = ["hard-case", "functions", "algorithms", "practice", "type-it", "i-have-adhd"]
+REFERENCES = ["hard-case", "rebuild", "functions", "algorithms", "practice", "type-it", "i-have-adhd"]
 
 
 def strip_frontmatter(text):
@@ -29,8 +29,14 @@ def standalone(text):
     text = text.replace("skill `", "reference `")
     text = text.replace('# VibeLearning: "learn while you build" mode is ON', "# VibeLearning: learn while you build")
     text = re.sub(r"(?m)^- If the guard hook blocks a command.*\n", "", text)
+    # No hook reads the message or remembers the learner outside the plugin: drop the sentences that rely on them.
+    text = re.sub(r"Each prompt may arrive with .*?the conversation wins\.\n", "Before teaching, work out what the user is really asking.\n", text, flags=re.S)
+    text = text.replace(" (the `[VibeLearning] Reading this message` note helps)", "")
+    text = text.replace(" (listed below when there are any)", "")
+    text = text.replace(" so VibeLearning can remember it for later sessions", "")
+    text = text.replace("suggest `/rebuild`", "use the rebuild guide").replace("Full guided version: `/rebuild`.", "Full guided version: `references/rebuild.md`.")
     text = text.replace(" The full log is available via `/activity`.", "").replace("suggest `/hard-case`", "offer the deep dive below").replace("from `/algorithms`", "from `references/algorithms.md`")
-    text = re.sub(r"For more depth the user can type [^.]*\.", "For more depth, use the guides in `references/`.", text)
+    text = re.sub(r"For (?:more )?depth the user can type [^.]*\.", "For more depth, use the guides in `references/`.", text)
     return text
 
 
@@ -44,7 +50,7 @@ def build():
     core = core.split("\nLearning commands:")[0]  # the command list belongs to the plugin
     (OUT / "SKILL.md").write_text(f"""---
 name: vibe-learning
-description: Learn while you vibe code. Explains every step in 2-3 plain lines, breaks down hard bugs the AI just solved, tours the functions in a file, names the algorithms in the code, lets the user write key lines or type git/npm commands themselves, and has an ADHD-friendly style. Use when the user is a beginner, says "explain", "I don't understand", "teach me", "why did that fix it", "what's in this file", "what algorithm is this", "I want to learn git", or "I have ADHD".
+description: Learn while you vibe code. Explains every step in plain Doing / Why / How lines, teaches how to rebuild features yourself, breaks down hard bugs the AI just solved, tours the functions in a file, names the algorithms in the code, lets the user write key lines or type git/npm commands themselves, and has an ADHD-friendly style. Use when the user is a beginner, says "explain", "I don't understand", "teach me", "why did that fix it", "what's in this file", "what algorithm is this", "I want to learn git", or "I have ADHD".
 ---
 
 {standalone(core).strip()}
@@ -53,6 +59,7 @@ description: Learn while you vibe code. Explains every step in 2-3 plain lines, 
 Read the matching file before doing one of these:
 
 - `hard-case.md`: right after solving a tricky bug, or when the user asks why a fix worked.
+- `rebuild.md`: when the user wants to learn how to build something themselves, from scratch.
 - `functions.md`: when the user asks what's in a file or how a function works.
 - `algorithms.md`: when the user asks what algorithm/pattern the code uses or whether it is fast enough.
 - `practice.md`: when the user wants to write part of the code themselves.
@@ -64,7 +71,7 @@ Read the matching file before doing one of these:
         (OUT / "references" / f"{name}.md").write_text(standalone(body))
     (OUT / "README.md").write_text(f"""# VibeLearning (skill) v{version}
 
-Learn while you vibe code: plain 2-3 line explanations for every step, hard-bug breakdowns,
+Learn while you vibe code: plain Doing / Why / How explanations for every step, rebuild-it-yourself guides, hard-bug breakdowns,
 function tours, algorithm spotting, practice tasks, type-it-yourself terminal checklists, and an ADHD-friendly style.
 
 ## Install

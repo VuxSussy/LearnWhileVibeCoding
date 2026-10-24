@@ -7,4 +7,6 @@ Create a quick **3-question** quiz based on what was done in this session (or on
 Rules:
 - Practical questions tied to the user's own code (e.g. "What happens if we delete line X?").
 - Multiple choice A/B/C or short answer; from easy to hard.
+- The last question is always a **"how would you build it"** question (e.g. "You need the same thing on the profile page. What do you write first?"), so the quiz checks making, not just reading.
+- If `$progress` data shows terms they asked about before, prefer questions that touch those.
 - **Do NOT reveal the answers yet.** Wait for the user to answer, then grade each question, explain the right answer in 2-3 lines, and praise what they got right.

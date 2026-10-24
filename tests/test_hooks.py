@@ -171,12 +171,178 @@ class SessionHooksTest(unittest.TestCase):
             with self.subTest(flag=flag):
                 self.home.flag(flag)
                 self.assertIn(heading, self.start())
-                self.assertIn(reminder, self.home.run(HOOKS / "reminder.sh", runner="sh"))
+                self.assertIn(reminder, self.home.run(HOOKS / "context.py", prompt_event("add a login page")))
 
     def test_learn_off_silences_teaching_rules(self):
         self.home.flag("off")
         self.assertNotIn("learn while you build", self.start())
-        self.assertEqual(self.home.run(HOOKS / "reminder.sh", runner="sh"), "")
+        self.assertEqual(self.home.run(HOOKS / "context.py", prompt_event("add a login page")), "")
+
+    def test_new_learner_gets_no_memory_block(self):
+        self.assertNotIn("already knows", self.start())
+        self.assertEqual(json.loads((self.home.path / ".claude/vibe-learning/learner.json").read_text()), {})
+
+
+def prompt_event(prompt):
+    return json.dumps({"session_id": "test", "cwd": "/projects/shop", "prompt": prompt})
+
+
+class ContextHookTest(unittest.TestCase):
+    """The UserPromptSubmit hook reads each message and tells the AI how to teach it."""
+
+    def setUp(self):
+        self.home = FakeHome(self)
+
+    def read(self, prompt):
+        return self.home.run(HOOKS / "context.py", prompt_event(prompt))
+
+    def header(self, prompt):
+        return self.read(prompt).splitlines()[0]
+
+    def test_detects_what_kind_of_help_is_wanted(self):
+        cases = {
+            "middleware là gì vậy?": "concept question",
+            "what is a closure?": "concept question",
+            "làm sao để tự tạo trang đăng nhập": "how to make it",
+            "lam sao de tu tao trang dang nhap": "how to make it",  # typed without accents
+            "how do I add login with Google?": "how to make it",
+            "TypeError: cannot read properties of undefined": "bug",
+            "web bị trắng trang sau khi deploy": "bug",
+            "mình vẫn chưa hiểu": "confused",
+            "tại sao lại dùng useEffect ở đây": "why",
+            "giải thích giúp mình hàm này": "explain",
+            "Thêm nút đăng xuất vào trang chủ": "build",
+            "just do it, add a dark mode toggle": "in a hurry",
+            "tắt giải thích đi": "mode switch",
+            "ok tiếp": "short follow-up",
+        }
+        for prompt, intent in cases.items():
+            with self.subTest(prompt=prompt):
+                self.assertIn(intent, self.header(prompt))
+
+    def test_accents_prevent_false_alarms(self):
+        # "lời" (words) is not "lỗi" (error), and praising an explanation is not asking for one.
+        header = self.header("lời giải thích này hay đó")
+        self.assertNotIn("bug", header)
+        self.assertNotIn("explain", header)
+
+    def test_replies_in_vietnamese_with_translated_labels(self):
+        for prompt in ("middleware là gì", "middleware la gi"):
+            with self.subTest(prompt=prompt):
+                self.assertIn("Tự làm thế nào", self.header(prompt))
+        self.assertNotIn("Tự làm thế nào", self.header("what is a closure?"))
+
+    def test_stronger_intent_drops_contradicting_advice(self):
+        out = self.read("just do it, add a dark mode toggle")
+        self.assertNotIn("Blueprint", out)  # no blueprint lecture for someone in a hurry
+        out = self.read("làm sao để tự tạo trang đăng nhập")
+        self.assertNotIn("Build request", out)  # the how-to advice already covers building
+
+    def test_names_the_concept_and_remembers_the_question(self):
+        self.assertIn('"middleware"', self.read("cho mình hỏi middleware là gì"))
+        self.assertNotIn("asked what", self.read("cho mình hỏi middleware là gì").split("\n", 2)[1])
+        out = self.read("middleware khác gì với route handler?")
+        self.assertIn("They asked what middleware means before", out)
+        asked = json.loads((self.home.path / ".claude/vibe-learning/learner.json").read_text())["asked"]
+        self.assertEqual(asked["middleware"]["count"], 2)
+        self.assertEqual(asked["middleware"]["project"], "shop")
+
+    def test_builds_on_terms_learned_in_earlier_sessions(self):
+        profile = {"terms": {"api": {"term": "API", "count": 3, "last": "2026-10-01"}}}
+        (self.home.path / ".claude/vibe-learning").mkdir(parents=True)
+        (self.home.path / ".claude/vibe-learning/learner.json").write_text(json.dumps(profile))
+        self.assertIn("Already learned in earlier sessions: API", self.read("gọi API như thế nào cho đúng"))
+        self.assertNotIn("Already learned", self.read("thêm trang hồ sơ"))
+
+    def test_points_back_at_earlier_context(self):
+        self.assertIn("point back at something earlier", self.read("làm giống cái lúc nãy cho trang hồ sơ"))
+
+    def test_bad_input_falls_back_to_the_plain_reminder(self):
+        for stdin in ("not json", "{}", json.dumps({"prompt": ["list"]})):
+            with self.subTest(stdin=stdin):
+                out = self.home.run(HOOKS / "context.py", stdin)
+                self.assertTrue(out == "" or out.startswith("[VibeLearning]"))
+
+
+class LearnerMemoryTest(unittest.TestCase):
+    """The Stop hook saves what the AI taught; session start reminds the AI of it."""
+    REPLY = (
+        "📘 **Đang làm:** Tạo file `.env`.\n"
+        "🔑 **Thuật ngữ:** *Biến môi trường* = tờ giấy nhớ bí mật chương trình đọc khi khởi động.\n"
+        "🔑 **Term:** *Middleware* = a checkpoint every request passes through.\n"
+        "🧩 **Hard case: \"Double-clicking creates two orders\"**\n"
+        "   🤒 **Symptom:** two orders.\n"
+    )
+
+    def setUp(self):
+        self.home = FakeHome(self)
+        self.profile_path = self.home.path / ".claude/vibe-learning/learner.json"
+
+    def stop(self, event):
+        self.assertEqual(self.home.run(HOOKS / "learner.py", json.dumps(event)), "")  # never adds tokens
+
+    def profile(self):
+        return json.loads(self.profile_path.read_text())
+
+    def test_saves_terms_and_hard_cases_from_the_reply(self):
+        self.stop({"cwd": "/projects/shop", "last_assistant_message": self.REPLY})
+        terms = self.profile()["terms"]
+        self.assertEqual(terms["bien moi truong"]["term"], "Biến môi trường")
+        self.assertIn("giấy nhớ", terms["bien moi truong"]["meaning"])
+        self.assertEqual(terms["middleware"]["project"], "shop")
+        self.assertEqual([c["name"] for c in self.profile()["hard_cases"]], ["Double-clicking creates two orders"])
+
+    def test_reads_only_the_last_turn_from_the_transcript(self):
+        def entry(kind, content):
+            return json.dumps({"type": kind, "message": {"role": kind, "content": content}})
+        lines = [
+            entry("user", "first question"),
+            entry("assistant", [{"type": "text", "text": "🔑 **Term:** *Old term* = from an earlier turn"}]),
+            entry("user", "what is middleware?"),
+            entry("assistant", [{"type": "text", "text": "Let me look."}, {"type": "tool_use", "name": "Read"}]),
+            entry("user", [{"type": "tool_result", "content": "file text"}]),
+            entry("assistant", [{"type": "text", "text": self.REPLY}]),
+        ]
+        transcript = self.home.path / "transcript.jsonl"
+        transcript.write_text("\n".join(lines) + "\n")
+        self.stop({"cwd": "/projects/shop", "transcript_path": str(transcript)})
+        self.assertNotIn("old term", self.profile()["terms"])
+        self.assertIn("middleware", self.profile()["terms"])
+
+    def test_end_of_turn_recap_is_remembered(self):
+        # Only the turn's last message reaches the Stop hook, so the 📚 recap carries the earlier 🔑 terms.
+        self.stop({"last_assistant_message": "🧾 Mình đã làm\n- ✏️ sửa `app.js`\n📚 **Thuật ngữ mới:** *Hook*, *Stop hook* · *Regex*"})
+        self.assertEqual(sorted(self.profile()["terms"]), ["hook", "regex", "stop hook"])
+
+    def test_term_and_recap_in_one_turn_count_once(self):
+        self.stop({"last_assistant_message": self.REPLY + "📚 New terms: *Middleware*"})
+        self.assertEqual(self.profile()["terms"]["middleware"]["count"], 1)
+        self.assertIn("checkpoint", self.profile()["terms"]["middleware"]["meaning"])
+
+    def test_counts_repeats_and_skips_template_placeholders(self):
+        self.stop({"last_assistant_message": self.REPLY})
+        self.stop({"last_assistant_message": self.REPLY + "🔑 Term: <one new concept> = <definition>"})
+        profile = self.profile()
+        self.assertEqual(profile["terms"]["middleware"]["count"], 2)
+        self.assertEqual(len(profile["hard_cases"]), 1)
+        self.assertEqual(len(profile["terms"]), 2)
+
+    def test_session_start_lists_what_they_already_know(self):
+        self.stop({"last_assistant_message": self.REPLY})
+        out = self.home.run(HOOKS / "session-start.sh", runner="sh")
+        self.assertIn("What this learner already knows", out)
+        self.assertIn("Biến môi trường, Middleware", out.replace("Middleware, Biến môi trường", "Biến môi trường, Middleware"))
+        self.assertIn("Double-clicking creates two orders", out)
+
+    def test_learn_off_stops_recording(self):
+        self.home.flag("off")
+        self.stop({"last_assistant_message": self.REPLY})
+        self.assertFalse(self.profile_path.exists())
+
+    def test_bad_input_never_crashes(self):
+        for stdin in ("not json", "{}", json.dumps({"transcript_path": "/nope.jsonl"})):
+            with self.subTest(stdin=stdin):
+                self.assertEqual(self.home.run(HOOKS / "learner.py", stdin), "")
 
 
 class PluginLayoutTest(unittest.TestCase):
@@ -207,6 +373,14 @@ class PluginLayoutTest(unittest.TestCase):
                 self.assertRegex(deletes, r"(?m)^!`rm -f " + re.escape(flag_path.format(flag)) + "`$")
                 self.assertIn(f'"$FLAG.{flag}"', (HOOKS / "session-start.sh").read_text())
 
+    def test_every_hook_script_exists(self):
+        hooks = json.loads((HOOKS / "hooks.json").read_text())["hooks"]
+        for event, groups in hooks.items():
+            for hook in (h for g in groups for h in g["hooks"]):
+                script = re.search(r"hooks/([\w.-]+)", hook["command"]).group(1)
+                with self.subTest(event=event, script=script):
+                    self.assertTrue((HOOKS / script).exists())
+
     def test_skills_never_switch_modes_themselves(self):
         for skill in self.SKILLS.iterdir():
             text = (skill / "SKILL.md").read_text()
@@ -233,6 +407,13 @@ class CodexBuildTest(unittest.TestCase):
                     for leftover in ("$ARGUMENTS", "~/.claude", "$HOME/.claude", "CLAUDE_PLUGIN_ROOT"):
                         self.assertNotIn(leftover, text)
                     self.assertNotRegex(text, r"(?m)^!`")
+
+    def test_codex_memory_lives_in_codex_home(self):
+        home = FakeHome(self)
+        (home.path / ".codex").mkdir()
+        home.run(self.codex / "hooks" / "context.py", prompt_event("middleware là gì"))
+        self.assertTrue((home.path / ".codex/vibe-learning/learner.json").exists())
+        self.assertFalse((home.path / ".claude/vibe-learning/learner.json").exists())
 
     def test_codex_guard_reads_codex_flag(self):
         home = FakeHome(self)

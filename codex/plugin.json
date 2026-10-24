@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "vibe-learning",
-  "version": "3.1.0",
-  "description": "Learn while you vibe code: Claude explains every step in 2-3 plain lines, shows what it did, tours the functions in a file, names the algorithms it finds, breaks down the hard bugs it solved, lets you write key lines and type the git/npm commands yourself, and has an ADHD-friendly mode.",
+  "version": "4.0.0",
+  "description": "Learn while you vibe code: Claude reads what you're really asking, explains every step as Doing / Why / How-to-do-it-yourself, remembers what you've learned across sessions, teaches you to rebuild features from scratch, breaks down the hard bugs it solved, tours functions and algorithms, lets you write key lines and type git/npm commands yourself, and has an ADHD-friendly mode.",
   "author": {
     "name": "VuxSussy",
     "url": "https://github.com/VuxSussy"
@@ -20,7 +20,9 @@
     "debugging",
     "tutor",
     "algorithms",
-    "code-explanation"
+    "code-explanation",
+    "learner-memory",
+    "from-scratch"
   ],
   "extensions": {
     "com.openai": {

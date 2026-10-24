@@ -2,7 +2,10 @@
 
 A **Claude Code** (and **OpenAI Codex**) plugin that lets vibe coders **learn while they build**, so you don't end up with an app that works but that you don't understand.
 
-- Every meaningful step comes with a **2–3 line, plain-language explanation**.
+- It **reads what you actually typed**, in English or Vietnamese, with or without accents. A concept question, a "how do I make this", a bug report, "I still don't get it" and "just do it" each get a different kind of teaching.
+- Every meaningful step comes with a short, plain-language **Doing / Why / How-to-do-it-yourself** explanation, so you learn **how to make it**, not just what it does.
+- `/rebuild` teaches you to **build a feature yourself from an empty file**, using your own project as the example, or builds it **together** with you writing the code.
+- It **remembers what you've learned** across sessions (terms, concepts you were unsure about, hard bugs you've beaten), so it builds on what you know instead of starting over. `/progress` shows it.
 - Every **hard bug Claude solves** is turned into a short, reusable lesson.
 - You can **write the important lines yourself**, with hints, and **practice explaining your project** for interviews and project defenses.
 - It **shows what it did**: a `🧾 What I did` list after each piece of work, and a full plain-language timeline with `/activity`.
@@ -15,11 +18,29 @@ A **Claude Code** (and **OpenAI Codex**) plugin that lets vibe coders **learn wh
 
 ## ✨ What it looks like
 
-**Every step: 📘 Doing / 💡 Why / 🔑 Term**
+**Every step: 📘 Doing / 💡 Why / 🛠️ How (yourself) / 🔑 Term**
 
 > 📘 **Doing:** Creating a `.env` file to store the API key instead of hard-coding it.
 > 💡 **Why:** If the key lives in your code and you push to GitHub, strangers can grab it and use it.
+> 🛠️ **How (yourself):** Any secret goes in `.env`; read it with `process.env.NAME`, and check that `git status` never lists `.env`.
 > 🔑 **Term:** *Environment variable* = a "secret sticky note" your program reads when it starts.
+
+**It reads your message first.** Before Claude answers, a hook works out what kind of help you want and tells Claude how to teach it:
+
+| You type | Claude gets told |
+|---|---|
+| `middleware là gì?` | Concept question about "middleware": answer directly, analogy, where it is in *your* code, a check question. Reply in Vietnamese. |
+| `how do I add login with Google?` | They want to learn **how to make it**: 🧱 blueprint first, a 🛠️ line per step, 🔁 rebuild recipe at the end. |
+| `mình vẫn chưa hiểu cái lúc nãy` | They're **confused** and pointing at something earlier: explain it a *different* way, smaller steps, then check. |
+| `TypeError: cannot read properties of undefined` | Bug: debug out loud with 🔦 lines so they learn the method. |
+| `just do it` | In a hurry: do the work, one short line per step. |
+| `gọi API như thế nào` (and you learned "API" last week) | Already learned: build on it, don't define it again. |
+
+**Building a feature: 🧱 Blueprint before, 🔁 Rebuild it yourself after**
+
+> 🧱 **Blueprint:** `form → check input → POST /login → compare password → set cookie`. Start with a form that just logs what you typed, then add one arrow at a time.
+>
+> 🔁 **Rebuild it yourself:** 1) a form that logs its input 2) a `/login` route that echoes it back 3) look the user up 4) compare with `bcrypt.compare` (never `==`) 5) set the session cookie 6) redirect.
 
 **After a hard bug: a 🧩 Hard case block**
 
@@ -97,8 +118,9 @@ Each skill kicks in on its own when it fits, and you can also type it as a comma
 
 | Skill | What it does |
 |---|---|
-| `/learn` | The core teaching rules: 📘/💡/🔑 blocks, everyday analogies, no unexplained jargon. On by default. |
-| `/hard-case [case] [save]` | After a tricky bug (it took several tries, the cause was hidden, or the error was misleading), explains the symptom, root cause, why the fix works, and how to spot it next time. Typed directly, it does a deep dive: flow before and after the fix, failed attempts, how to reproduce it, similar risks elsewhere. `save` keeps it in `LEARNING_NOTES.md`. |
+| `/learn` | The core teaching rules: read the message first, 📘 Doing / 💡 Why / 🛠️ How / 🔑 Term lines, 🧱 blueprints and 🔁 rebuild recipes, everyday analogies, no unexplained jargon. On by default. |
+| `/rebuild [feature] [together \| save]` | Teaches you to build something **from an empty file**, using your project's real code: the core idea, a blueprint of the parts and the order to build them, 3–6 runnable milestones (code, how you'd figure it out yourself, how to check it), the reusable pattern, and exercises. `together` = you write each milestone with hints; `save` keeps the guide in `LEARNING_NOTES.md`. |
+| `/hard-case [case] [save]` | After a tricky bug (it took several tries, the cause was hidden, or the error was misleading), explains the symptom, **how it was tracked down**, the root cause, why the fix works, and how to spot it next time. Typed directly, it does a deep dive: flow before and after the fix, failed attempts, how to reproduce it, similar risks elsewhere. `save` keeps it in `LEARNING_NOTES.md`. |
 | `/functions <file> [function]` | A tour of a file: every function, method and class with its line number, what it does, inputs → output, and how they call each other. Add a function name for a step-by-step deep dive. |
 | `/algorithms [file \| function]` | Names the algorithms, data structures and design patterns in the code, with Big-O speed translated into everyday words and any real performance problems. |
 | `/practice [spot]` | Leaves 3–10 meaningful lines for **you** to write, marked with a `TODO`, plus step-by-step hints and feedback. Typed directly, it gives you one task right now. |
@@ -128,6 +150,7 @@ Modes are switched **only** by these commands. Each one flips a setting file dir
 | `/interview [practice]` | Generates talking points for explaining your project, or runs a mock interview one question at a time. |
 | `/recap [save]` | A study summary of the session (what you built, concepts, algorithms, hard cases, terms). Add `save` to append it to `LEARNING_NOTES.md`. |
 | `/glossary [term]` | A table of the terms you have met, each with a one-line meaning and an everyday example. |
+| `/progress [project]` | What you've learned **across all sessions**: solid terms, concepts you're still unsure about (with a fresh explanation), hard cases you've beaten, and what to review next. |
 | `/where` | "Where was I?" Shows the goal, progress and the single next step. Useful after a break. |
 
 > If another plugin uses the same name, use the prefixed form, for example `/vibe-learning:type-it on`.
@@ -136,8 +159,9 @@ Modes are switched **only** by these commands. Each one flips a setting file dir
 
 | Hook | What it does |
 |---|---|
-| `SessionStart` | Loads the teaching rules, plus the ADHD, practice and type-it rules if you turned them on, at the start of every session. |
-| `UserPromptSubmit` | Adds a one-line reminder on each turn so Claude keeps explaining, and keeps writing 🧮, 🧩 and 🧾 blocks, even in long sessions. |
+| `SessionStart` | Loads the teaching rules, plus the ADHD, practice and type-it rules if you turned them on, and a short "what this learner already knows" block from your learner memory. |
+| `UserPromptSubmit` | **Reads your message** (`context.py`): detects what kind of help you want, whether you sound confused or in a hurry, whether you're pointing at something earlier, your language, and which terms you already know, then gives Claude teaching advice for *this* message. Needs `python3`. |
+| `Stop` | **Learner memory** (`learner.py`): after each reply, saves the 🔑 terms Claude taught and the 🧩 hard cases it explained to `~/.claude/vibe-learning/learner.json`. Prints nothing. Delete the file to reset. Needs `python3`. |
 | `PreToolUse` | In type-it mode, blocks shell commands that change the project through git or a package manager (`git commit`, `npm install`, `pip install`...) and tells the AI to hand them to you instead. Read-only commands (`git status`, `git diff`, `npm ls`) and running the project (`npm test`) still work. Needs `python3`. |
 | `PostToolUse` | Writes one line per tool call (time, tool, file or command) to `~/.claude/vibe-learning/activity/`, which `/activity` reads. It prints nothing, so it costs no tokens. Needs `python3`. |
 
@@ -152,7 +176,7 @@ codex plugin marketplace add VuxSussy/VibeLearning
 Then:
 
 1. Run `codex`, open `/plugins` and install **vibe-learning**.
-2. Run `/hooks` and **trust** the plugin's four hooks. Codex skips plugin hooks until you review them, and without them the automatic explanations won't turn on.
+2. Run `/hooks` and **trust** the plugin's five hooks. Codex skips plugin hooks until you review them, and without them the automatic explanations won't turn on.
 3. Start a new session.
 
 Differences from the Claude Code version:
@@ -192,12 +216,12 @@ You don't have to run a command. Just say *"I have ADHD"* or *"this is too much 
 
 ## 🗺️ Suggested learning loop
 
-1. Ask for what you want as usual, and read the 📘💡🔑 blocks as Claude works.
+1. Ask for what you want as usual, in your own words, and read the 📘💡🛠️ lines as Claude works.
 2. When Claude fixes something tricky, read the 🧩 block. Use `/hard-case` if you want the full story.
 3. Something unclear? Use `/explain` or `/why`. Opened a file you don't recognize? Use `/functions` and `/algorithms`.
 4. Lost track of what the AI changed? Use `/activity`. Want to learn git or npm? Run `/type-it-on` and type the commands yourself.
-5. Finished a feature? Use `/practice` or `/quiz` to check that it sticks.
-6. At the end of the day, run `/recap save` to keep your notes, and `/interview` before a demo or project defense.
+5. Finished a feature? Run `/rebuild together` to build it again with your own hands, or `/practice` and `/quiz` to check that it sticks.
+6. At the end of the day, run `/recap save` to keep your notes, `/progress` to see what's still shaky, and `/interview` before a demo or project defense.
 
 ## 📁 Structure
 
@@ -208,8 +232,9 @@ VibeLearning/
 │   └── marketplace.json     # makes it installable via /plugin
 ├── hooks/
 │   ├── hooks.json           # registers the hooks
-│   ├── session-start.sh     # injects the rules at session start
-│   ├── reminder.sh          # per-turn reminder
+│   ├── session-start.sh     # injects the rules + learner memory at session start
+│   ├── context.py           # reads each message and picks how to teach it
+│   ├── learner.py           # learner memory: saves the terms and hard cases you've learned
 │   ├── log-activity.py      # records each tool call for /activity
 │   ├── type-it-guard.py     # blocks git/npm changes in type-it mode
 │   ├── typeit-rules.md      # extra rules when /type-it-on
@@ -218,6 +243,7 @@ VibeLearning/
 │   └── practice-rules.md    # extra rules when /practice-on
 ├── skills/
 │   ├── learn/SKILL.md
+│   ├── rebuild/SKILL.md
 │   ├── hard-case/SKILL.md
 │   ├── practice/SKILL.md
 │   ├── i-have-adhd/SKILL.md
@@ -229,10 +255,13 @@ VibeLearning/
 ├── .agents/plugins/marketplace.json   # Codex marketplace
 ├── scripts/build-codex.py   # regenerates codex/ from the Claude sources
 ├── tests/test_hooks.py      # automated tests for the hooks and the Codex build
+├── docs/how-it-works.vi.md  # how VibeLearning itself is built, step by step (Vietnamese)
 └── LICENSE
 ```
 
-To change the tone or format of the explanations, edit `hooks/teaching-rules.md` and the `SKILL.md` files.
+To change the tone or format of the explanations, edit `hooks/teaching-rules.md` and the `SKILL.md` files. To teach the message reader new phrases, add them to `INTENTS` in `hooks/context.py` (and a test case in `tests/test_hooks.py`).
+
+Want to know how a plugin like this is made? [`docs/how-it-works.vi.md`](docs/how-it-works.vi.md) walks through building it piece by piece.
 
 ## 🙏 Inspiration & credits
 

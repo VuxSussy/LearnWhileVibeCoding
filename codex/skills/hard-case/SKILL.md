@@ -21,32 +21,36 @@ Trivial bugs (a misspelled variable, a missing bracket) → do **not** use this 
 ```
 🧩 Hard case: <short, memorable name>
    🤒 Symptom: <what the user saw>
+   🔦 How I tracked it down: <the checks that led to the cause, in order, and what each one ruled out>
    🔎 Root cause: <what was really going on, with an everyday analogy if possible>
    🛠️ Fix & why it works: <what changed, and why it fixes the root cause instead of hiding the symptom>
    🧠 Spot it next time: <the sign that tells you it's this kind of bug>
 ```
 If a wrong fix was tried first, add `❌ First attempt failed because: ...`. That line is often the biggest lesson.
+The 🔦 line is how the user learns to debug on their own: name the real moves (read the full error, add a `console.log`, check the Network tab, try the smallest input), not "I investigated".
 
 ## Principles
 - **Be honest:** if you are not sure about the root cause, say "most likely...". Never make one up.
 - **Talk about the user's own code**, with specific files/lines, not generic theory.
 - **Keep it short.** For a deep dive (flow diagram, reproducing the bug) suggest `$hard-case`.
-- With ADHD mode on: bold the keyword in each line, trim words, keep all 5 lines.
+- With ADHD mode on: bold the keyword in each line, trim words, keep all 6 lines.
 
 ## Example
 🧩 **Hard case: "Double-clicking creates two orders"**
    🤒 **Symptom:** Clicking fast twice saves two identical orders.
+   🔦 **How I tracked it down:** The server log showed **two requests 40 ms apart**, so the bug was in sending, not in saving.
    🔎 **Root cause:** The first request **hadn't finished** when the second one was sent, like two people withdrawing from one account at the same moment.
    🛠️ **Fix & why it works:** **Disable the button** while sending and add a **unique order key** on the server, so even two sends create only one order.
    🧠 **Spot it next time:** The bug only happens **when you act fast**, so think "two things running on top of each other".
 
 ## Deep dive (when the user invokes this skill directly)
 Dig into the case the user named, or the hardest case solved in this conversation. Present in this order, 2-3 plain lines per part:
-1. **The full 🧩 block** (symptom, root cause, fix & why it works, spot it next time).
+1. **The full 🧩 block** (symptom, how it was tracked down, root cause, fix & why it works, spot it next time).
 2. **🎬 Flow before and after the fix** as two arrow lines, e.g. `Click → send request → (not done yet) → click again → second request ❌`.
 3. **❌ Attempts that didn't work** (if any) and why.
-4. **🧪 Reproduce it yourself:** one simple way for the user to make the bug appear again and see it with their own eyes.
-5. **🔁 Other places in the project that could have the same bug** (if any, at most 2).
-6. **❓ One check question** for the user to answer; wait for the answer before commenting.
+4. **🔦 The debugging method, step by step:** the order of checks that found it, written so the user could repeat it on the next bug.
+5. **🧪 Reproduce it yourself:** one simple way for the user to make the bug appear again and see it with their own eyes.
+6. **🔁 Other places in the project that could have the same bug** (if any, at most 2).
+7. **❓ One check question** for the user to answer; wait for the answer before commenting.
 
 If the user said "save": append the 🧩 block to `LEARNING_NOTES.md` under a `## 🧩 Hard cases` heading (create it if missing).

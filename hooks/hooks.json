@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/reminder.sh\""
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/context.py\""
           }
         ]
       }
@@ -37,6 +37,16 @@
           {
             "type": "command",
             "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/type-it-guard.py\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/learner.py\""
           }
         ]
       }

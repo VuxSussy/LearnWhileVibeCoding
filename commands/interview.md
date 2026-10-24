@@ -10,5 +10,6 @@ Without arguments: create a "talking points" sheet:
 1. **🎤 30-second pitch:** what the project does, for whom, with which technologies (3 sentences).
 2. **🏗️ Architecture:** how the main parts talk to each other (arrows, 5 boxes max).
 3. **🤔 5 likely questions** with suggested answers, 2-3 lines each, based on the real code (e.g. "Why bcrypt and not md5?").
+   Include at least one "how did you build X?" question, answered as the build order and the key decision at each step.
 4. **🧩 The hardest case** they hit, told as: problem → how it was found → how it was fixed → what was learned.
 5. **⚠️ Weak spots to admit** and how to improve them (1-2 lines). Interviewers value honesty.

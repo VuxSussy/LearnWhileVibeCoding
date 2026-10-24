@@ -10,6 +10,9 @@ Summarize this session as study notes for a beginner:
 ## 📚 What you learned
 Each concept in 2-3 lines: concept name → plain explanation → where it appears in the code.
 
+## 🔁 How to build it again
+For the main feature: the steps to rebuild it from an empty file (≤6), each naming the key decision. Suggest `$rebuild` for the full guide.
+
 ## 🧮 Algorithms & patterns used
 One line each: name → where → idea in plain words. Skip if none.
 
